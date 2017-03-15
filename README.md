@@ -1,40 +1,48 @@
 # blitzmax-mode - BlitzMax support for Emacs
 
 
+## Intro
+
+This is a very (very) WIP Emacs mode for editing BlitzMax source
+files. Highlighting and inte
+
 ## Installation
 
 ### Checkout from Git
 
-    cd ~/.emacs.d/
-    git clone git@github.com:Sodaware/blitzmax-mode.git blitzmax-mode
+```bash
+cd ~/path/to/.emacs.d/
+git clone git@github.com:Sodaware/blitzmax-mode.git blitzmax-mode
+```
 
 ### Add to .emacs
 
-    (add-to-list 'load-path "~/.emacs.d/blitzmax-mode/")
-    (require 'blitzmax-mode)
-    
+```emacs-lisp
+(add-to-list 'load-path "~/path/to/blitzmax-mode/")
+(require 'blitzmax-mode)
+```
+
 ### Configure Options
 
-    ; Automatically use blitzmax-mode for .bmx files
-    (autoload 'blitzmax-mode "blitzmax-mode" "BlitzMax Mode" t)
-        (add-to-list 'auto-mode-alist '("\\.bmx\\'"   . blitzmax-mode))
+```emacs-lisp
+;; Automatically use blitzmax-mode for .bmx files
+(autoload 'blitzmax-mode "blitzmax-mode" "BlitzMax Mode" t)
+(add-to-list 'auto-mode-alist '("\\.bmx\\'"   . blitzmax-mode))
+```
+
+## Current Features
+
+* Basic syntax highlighting
 
 
-## Features
+## Planned Features
 
-* Syntax highlighting
+* Compile current buffer
+* Much better syntax highlighting
+* Proper indenting
+* Auto-completion
 * Integration with bmk
 * Integration with blam
-
-
-## Configuration
-
-* Modules path
-* BlitzMax bmk path
-* blam (BlitzBuild) path
-
-
-## Usage
 
 
 ## Licence
