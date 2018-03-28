@@ -51,11 +51,6 @@
   t
   "*A list of keywords to highlight in Basic mode, or T, meaning all keywords.")
 
-(defvar blitzmax-defn-templates
-  (list "Method ()\nEnd Method\n\n"
-        "Function ()\nEnd Function\n\n")
-  "*List of function templates though which blitzmax-new-sub cycles.")
-
 (defvar blitzmax-mode-abbrev-table nil)
 
 (defvar blitzmax-mode-hook ())
