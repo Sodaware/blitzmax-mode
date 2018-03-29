@@ -1,45 +1,51 @@
-# blitzmax-mode - BlitzMax support for Emacs
+# blitzmax-mode - BlitzMax Mode for GNU Emacs
 
+This project adds a new major mode to GNU Emacs for editing BlitzMax source
+files. It supports keyword highlighting and automatic indentation.
 
-## Intro
-
-This is a very (very) WIP Emacs mode for editing BlitzMax source
-files. Highlighting and inte
 
 ## Installation
 
-### Checkout from Git
+To manually install this extension:
 
-```bash
-cd ~/path/to/.emacs.d/
-git clone git@github.com:Sodaware/blitzmax-mode.git blitzmax-mode
-```
+  1. Download the source code and put it somewhere Emacs can find it (probably
+     `~/.emacs.d/`).
+  2. Add that directory to your `load-path` if it's not yet there: 
+    `(add-to-list 'load-path "/path/to/blitzmax-mode")`
+  3. Require the mode:
+     `(require 'blitzmax-mode)`
 
-### Add to .emacs
+Once everything is loaded, blitzmax-mode can be enabled for a buffer by running
+`M-x blitzmax-mode`. The mode also associates itself with `.bmx` files, so they
+will automatically switch to `blitzmax-mode** when enabled.
 
-```emacs-lisp
-(add-to-list 'load-path "~/path/to/blitzmax-mode/")
-(require 'blitzmax-mode)
-```
 
-### Configure Options
+## Configuration
 
-```emacs-lisp
-;; Automatically use blitzmax-mode for .bmx files
-(autoload 'blitzmax-mode "blitzmax-mode" "BlitzMax Mode" t)
-(add-to-list 'auto-mode-alist '("\\.bmx\\'"   . blitzmax-mode))
-```
+**blitzmax-mode** provides the following configuration options:
+
+* `blitzmax-mode-indent` - The number of spaces to indent by. By default
+  **blitzmax-mode** indents by 4 spaces which is converted to a single tab.
+
+* `blitzmax-mode-fontify-p` - Disable syntax highlighting by setting this to
+  `nil`. `t` by default.
+
+* `blitzmax-mode-smart-indent-p` - Disable smart indentation by setting this to
+  `nil`. `t` by default.
+
+* `blitzmax-mode-compiler-pathname` - Full pathname to the BlitzMax compiler
+  `bmk`. Empty by default.
+
 
 ## Current Features
 
 * Basic syntax highlighting
+* Automatic indentation
 
 
 ## Planned Features
 
 * Compile current buffer
-* Much better syntax highlighting
-* Proper indenting
 * Auto-completion
 * Integration with bmk
 * Integration with blam
