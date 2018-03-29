@@ -35,8 +35,6 @@
 
 ;;; Configuration:
 
-;; Variables you may want to customize.
-
 (defvar blitzmax-mode-indent 4
   "Default indentation per nesting level.")
 
@@ -45,9 +43,6 @@
 
 (defvar blitzmax-mode-compiler-pathname nil
   "The full pathname of the BlitzMax compiler (i.e. bmk.")
-
-(defvar blitzmax-mode-ide-pathname nil
-  "The full pathname of the BlitzMax IDE (e.g. blide, blitzmax ide etc.")
 
 
 ;;; Code:
