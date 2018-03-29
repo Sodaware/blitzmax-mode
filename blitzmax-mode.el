@@ -159,7 +159,7 @@
     "WriteByte" "WriteFile" "WriteLine" "WriteLong" "compress2" "Abstract"
     "AppTitle" "BankSize" "CloseDir" "Continue" "CopyBank" "CueSound" "DebugLog"
     "DottedIP" "DrawLine" "DrawOval" "DrawPoly" "DrawRect" "DrawText" "FileMode"
-    "FileSize" "FileTime" "FileType" "FlushMem" "Function" "Function" "GCMalloc"
+    "FileSize" "FileTime" "FileType" "FlushMem" "Function" "GCMalloc"
     "GNetSync" "GetAlpha" "GetBlend" "GetColor" "GetScale" "Graphics" "HostName"
     "JoyCount" "JoyPitch" "JoyWheel" "LoadBank" "MemAlloc" "MemClear" "MemUsage"
     "MouseHit" "NextFile" "OpenFile" "PeekByte" "PeekLong" "PokeByte" "PokeLong"
@@ -191,6 +191,7 @@
 
 (defconst blitzmax-mode-constant-keywords
   '("True" "False" "Null"))
+
 
 ;; Font-lock functions
 
@@ -239,7 +240,6 @@
 
 (defun blitzmax-mode--find-matching-statement (open-regexp close-regexp)
   "Find the start of a pair that begins with OPEN-REGEXP and ends with CLOSE-REGEXP."
-  ;; Searching backwards
   (let ((level 0))
     (while (and (>= level 0) (not (bobp)))
       (blitzmax-mode--previous-line-of-code)
@@ -254,19 +254,19 @@
   (blitzmax-mode--find-matching-statement blitzmax-mode-if-regexp blitzmax-mode-endif-regexp))
 
 (defun blitzmax-mode--find-matching-select ()
-  "Find the start of an Select/End Select statement."
+  "Find the start of a Select/End Select statement."
   (blitzmax-mode--find-matching-statement blitzmax-mode-select-regexp blitzmax-mode-select-end-regexp))
 
 (defun blitzmax-mode--find-matching-for ()
-  "Find the start of an For/Next statement."
+  "Find the start of a For/Next statement."
   (blitzmax-mode--find-matching-statement blitzmax-mode-for-regexp blitzmax-mode-next-regexp))
 
 (defun blitzmax-mode--find-matching-while ()
-  "Find the start of an While/Wend statement."
+  "Find the start of a While/Wend statement."
   (blitzmax-mode--find-matching-statement blitzmax-mode-while-regexp blitzmax-mode-wend-regexp))
 
 (defun blitzmax-mode--find-matching-repeat ()
-  "Find the start of an Repeat/Until statement."
+  "Find the start of a Repeat/Until statement."
   (blitzmax-mode--find-matching-statement blitzmax-mode-repeat-regexp blitzmax-mode-until-regexp))
 
 (defun blitzmax-mode--find-matching-defun ()
