@@ -85,9 +85,9 @@
 (defconst blitzmax-mode-continuation-regexp "[ \t]*\\.\\.")
 (defconst blitzmax-mode-label-regexp "^[ \t]*#[a-zA-Z0-9_]+$")
 
-(defconst blitzmax-mode-select-regexp "^[ \t]*[Ss]elect[ \t]+[Cc]ase")
-(defconst blitzmax-mode-case-regexp "^[ \t]*[Cc]ase")
-(defconst blitzmax-mode-select-end-regexp "^[ \t]*[Ee]nd[ \t]+[Ss]elect")
+(defconst blitzmax-mode-select-regexp "^[ \t]*[Ss]elect")
+(defconst blitzmax-mode-case-regexp "^[ \t]*\\([Cc]ase\\|[Dd]efault\\)")
+(defconst blitzmax-mode-select-end-regexp "^[ \t]*[Ee]nd[ \t]*[Ss]elect")
 
 (defconst blitzmax-mode-for-regexp "^[ \t]*[Ff]or")
 (defconst blitzmax-mode-next-regexp "^[ \t]*[Nn]ext")
