@@ -38,6 +38,9 @@
 (defvar blitzmax-mode-indent 4
   "Default indentation per nesting level.")
 
+(defvar blitzmax-mode-smart-indent-p t
+  "Whether to use smart-indentation.")
+
 (defvar blitzmax-mode-fontify-p t
   "Whether to fontify Basic buffers.")
 
@@ -425,8 +428,9 @@
     (blitzmax-mode--fontify-buffer))
 
   ;; Indent lines using BlitzMax mode.
-  (make-local-variable 'indent-line-function)
-  (setq indent-line-function 'blitzmax-mode-indent-line)
+  (when blitzmax-mode-smart-indent-p
+    (make-local-variable 'indent-line-function)
+    (setq indent-line-function #'blitzmax-mode-indent-line))
 
   ;; Add keys.
   (define-key blitzmax-mode-map [remap comment-dwim] 'blitzmax-mode--insert-comment)
