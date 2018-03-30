@@ -90,6 +90,12 @@
 (defconst blitzmax-mode-defun-end-regexp
   "^[ \t]*[Ee]nd[ \t]*\\([Mm]ethod\\|[Ff]unction\\)")
 
+(defconst blitzmax-mode-abstract-defun-regexp
+  (concat
+   "^[\t ]*\\([Mm]ethod\\|[Ff]unction\\)"
+   "[ \t ]+\\(\\w+\\)[ \t ]*(?"
+   ".*[Aa]bstract"))
+
 (defconst blitzmax-mode-if-regexp "^[ \t]*[Ii]f")
 (defconst blitzmax-mode-if-oneline-regexp "^[ \t]*[Ii]f.*[Th]en[\\ t:]*[[:alnum:]]+[^']+?")
 (defconst blitzmax-mode-else-regexp "^[ \t]*[Ee]lse\\([Ii]f\\)?")
@@ -282,6 +288,10 @@ Returns `t` if in code, `nil` if in a comment or string."
   "Check if the current IF statement is complete on a single line."
   (looking-at blitzmax-mode-if-oneline-regexp))
 
+(defun blitzmax-mode--abstract-defun-p ()
+  "Check if the current function or method is abstract."
+  (looking-at blitzmax-mode-abstract-defun-regexp))
+
 (defun blitzmax-mode--previous-line-of-code ()
   "Move to the previous line of code, skipping over any comments or whitespace."
   (if (not (bobp))
@@ -422,7 +432,8 @@ Returns `t` if in code, `nil` if in a comment or string."
                (blitzmax-mode--find-original-statement)
                (let ((indent (current-indentation)))
                  ;; All the various +indent regexps.
-                 (cond ((looking-at blitzmax-mode-defun-start-regexp)
+                 (cond ((and (looking-at blitzmax-mode-defun-start-regexp)
+                             (not (blitzmax-mode--abstract-defun-p)))
                         (+ indent blitzmax-mode-indent))
 
                        ((looking-at blitzmax-mode-type-start-regexp)
