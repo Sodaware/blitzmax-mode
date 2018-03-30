@@ -83,4 +83,13 @@
    (should (string= (cleaned-buffer-string) (fixture "repeat_until.bmx")))))
 
 
+;; --------------------------------------------------
+;; -- Bugs
+
+;; Abstract functions and methods increase indent but shouldn't.
+(ert-deftest blitzmax-mode-indentation-test/issue-002-abstract-indentation ()
+  (with-blitzmax-mode-test
+   ("issue_002.bmx" :indent t)
+   (should (string= (cleaned-buffer-string) (fixture "issue_002.bmx")))))
+
 ;;; blitzmax-mode-indentation-test.el ends here
