@@ -2,9 +2,8 @@
 
 ;;; Commentary:
 
-;; Tests for blitzmax-mode font-locking.  Opens a fixture file (which is already
-;; indented correctly) and indents the entire buffer.  Fails if the
-;; post-indented file doesn't match the fixture.
+;; Tests for blitzmax-mode font-locking.  Opens a file with known contents and
+;; checks that characters have the correct face.  Not elegant.
 
 ;;; Code:
 
