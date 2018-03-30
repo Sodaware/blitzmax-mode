@@ -57,7 +57,7 @@ run with specific customizations set."
     (buffer-string)))
 
 (defun cleaned-buffer-string ()
-  "Get buffer-string without any fontification data."
+  "Get \"buffer-string\" without any fontification data."
   (let ((buffer (buffer-string)))
     (set-text-properties 0 (length buffer) nil buffer)
     buffer))
