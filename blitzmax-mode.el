@@ -275,14 +275,15 @@ Returns `t` if in code, `nil` if in a comment or string."
           '(blitzmax-mode-font-lock-keywords nil t))))
 
 
-;; Indentation Functions
+;; --------------------------------------------------
+;; -- Indentation functions
 
 (defun blitzmax-mode--one-line-if-p ()
   "Check if the current IF statement is complete on a single line."
   (looking-at blitzmax-mode-if-oneline-regexp))
 
 (defun blitzmax-mode--previous-line-of-code ()
-  "Move to the previous line of code."
+  "Move to the previous line of code, skipping over any comments or whitespace."
   (if (not (bobp))
       (forward-line -1))
   (while (and (not (bobp))
@@ -479,7 +480,9 @@ Returns `t` if in code, `nil` if in a comment or string."
   (interactive)
   (blitzmax-mode--indent-to-column (blitzmax-mode--calculate-indent)))
 
-;; Mode Registration
+
+;; --------------------------------------------------
+;; -- Main Mode
 
 (define-derived-mode blitzmax-mode fundamental-mode
   "BlitzMax mode"
