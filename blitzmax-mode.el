@@ -42,7 +42,10 @@
   "Whether to use smart-indentation.")
 
 (defvar blitzmax-mode-fontify-p t
-  "Whether to fontify Basic buffers.")
+  "Whether to fontify BlitzMax buffers.")
+
+(defvar blitzmax-mode-capitalize-keywords-p t
+  "Whether to automatically capitalize keywords.")
 
 (defvar blitzmax-mode-compiler-pathname nil
   "The full pathname of the BlitzMax compiler (i.e. bmk.")
@@ -60,6 +63,16 @@
         (comment-start "'")
         (comment-end ""))
     (comment-dwim arg)))
+
+
+;; --------------------------------------------------
+;; -- Local Variables
+
+(defvar blitzmax-mode-abbrev-table nil)
+
+
+;; --------------------------------------------------
+;; -- Regex for highlighting
 
 (defconst blitzmax-mode-type-start-regexp
   (concat
@@ -102,7 +115,8 @@
 (defconst blitzmax-mode-comment-regexp "^[ \t]*\\s<.*$")
 
 
-;; BlitzMax Keywords
+;; --------------------------------------------------
+;; -- Keywords
 
 (defconst blitzmax-mode-all-keywords
   '("CreateStaticAudioSample" "TStreamWriteException" "TStreamReadException"
@@ -193,7 +207,55 @@
   '("True" "False" "Null"))
 
 
-;; Font-lock functions
+;; --------------------------------------------------
+;; -- Automatic capitalization
+
+(defun blitzmax-mode--abbrev-keyword-lookup ()
+  "Fetch a keyword lookup for all keywords, types and constants.
+
+Returns a list of abbrev pairs.  The first member of the pair is
+a lowercase word, the second is the correctly-capitalized word."
+  (let ((all-keywords (append blitzmax-mode-all-keywords
+                              blitzmax-mode-type-keywords
+                              blitzmax-mode-constant-keywords)))
+    (mapcar #'(lambda (word)
+                (list (downcase word) word))
+            all-keywords)))
+
+(defun blitzmax-mode--create-abbrev-table ()
+  "Create a new abbreviation table for automatic capitalization.
+
+Returns `t` if the table was created, `nil` if it already exists."
+  (unless blitzmax-mode-abbrev-table
+    (define-abbrev-table
+      'blitzmax-mode-abbrev-table
+      (blitzmax-mode--abbrev-keyword-lookup))
+    t))
+(blitzmax-mode--create-abbrev-table)
+
+(defun blitzmax-mode--in-code-context-p ()
+  "Check if point is in code.
+
+Returns `t` if in code, `nil` if in a comment or string."
+  (if (fboundp 'buffer-syntactic-context)
+      (null (buffer-syntactic-context))
+      (let* ((beg (save-excursion
+                    (beginning-of-line)
+                    (point)))
+             (list
+              (parse-partial-sexp beg (point))))
+        (and (null (nth 3 list))      ; inside string.
+             (null (nth 4 list))))))  ; inside comment
+
+(defun blitzmax-mode--capitalize-keywords ()
+  "Automatically capitalize keywords if in a code context."
+  (setq local-abbrev-table
+        (if (blitzmax-mode--in-code-context-p)
+            blitzmax-mode-abbrev-table)))
+
+
+;; --------------------------------------------------
+;; -- Font-lock functions
 
 (defun blitzmax-mode--fontify-buffer ()
   "Enable BlitzMax syntax highlighting for the current buffer."
@@ -432,8 +494,13 @@
     (make-local-variable 'indent-line-function)
     (setq indent-line-function #'blitzmax-mode-indent-line))
 
+  (when blitzmax-mode-capitalize-keywords-p
+    (make-local-variable 'pre-abbrev-expand-hook)
+    (add-hook 'pre-abbrev-expand-hook #'blitzmax-mode--capitalize-keywords)
+    (abbrev-mode 1))
+
   ;; Add keys.
-  (define-key blitzmax-mode-map [remap comment-dwim] 'blitzmax-mode--insert-comment)
+  (define-key blitzmax-mode-map [remap comment-dwim] #'blitzmax-mode--insert-comment)
 
   ;; Comment: "'".
   (modify-syntax-entry ?\' "< b" blitzmax-mode-syntax-table)
