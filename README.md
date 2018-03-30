@@ -30,6 +30,9 @@ will automatically switch to `blitzmax-mode** when enabled.
 * `blitzmax-mode-fontify-p` - Disable syntax highlighting by setting this to
   `nil`. `t` by default.
 
+* `blitzmax-mode-capitalize-keywords-p` - Disable automatic capitalization of
+  keywords by setting this to `nil`. `t` by default.
+
 * `blitzmax-mode-smart-indent-p` - Disable smart indentation by setting this to
   `nil`. `t` by default.
 
@@ -41,6 +44,7 @@ will automatically switch to `blitzmax-mode** when enabled.
 
 * Basic syntax highlighting
 * Automatic indentation
+* Capitalizes keywords automatically
 
 
 ## Planned Features
