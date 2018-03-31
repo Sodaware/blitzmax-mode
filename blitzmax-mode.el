@@ -275,10 +275,12 @@ Returns `t` if in code, `nil` if in a comment or string."
     (setq font-lock-defaults
           '(blitzmax-mode-font-lock-keywords nil t))))
 
+;; Propertize Rem/End Rem comments. BlitzMax ignores the case, so REM and rEm
+;; are treated exactly the same (i.e. the start of a comment).
 (defconst blitzmax-mode--syntax-propertize-function
   (syntax-propertize-rules
-   ("\\_<\\([Rr]\\)em\\_>"        (1 "<"))   ;; Start of comment.
-   ("\\_<[Ee]nd[ ]?Re\\(m\\)\\_>" (1 ">")))) ;; End of comment.
+   ("\\_<\\([Rr]\\)[Ee][Mm]\\_>"        (1 "<"))            ;; Start of comment.
+   ("\\_<[Ee][Nn][Dd][ ]?[Rr][Ee]\\([Mm]\\)\\_>" (1 ">")))) ;; End of comment.
 
 
 ;; --------------------------------------------------
