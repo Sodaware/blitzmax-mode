@@ -116,4 +116,10 @@
    ("issue_008.bmx" :indent t)
    (should (string= (cleaned-buffer-string) (fixture "issue_008.bmx")))))
 
+;; Issue #9 - underscore type names don't indent
+(ert-deftest blitzmax-mode-indentation-test/issue-009-underscore-types-indentation ()
+  (with-blitzmax-mode-test
+   ("issue_009.bmx" :indent t)
+   (should (string= (cleaned-buffer-string) (fixture "issue_009.bmx")))))
+
 ;;; blitzmax-mode-indentation-test.el ends here
