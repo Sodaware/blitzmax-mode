@@ -98,5 +98,11 @@
    ("issue_004_a.bmx" :indent t)
    (should (string= (cleaned-buffer-string) (fixture "issue_004_a.bmx")))))
 
+;; Extern tries to indent functions
+(ert-deftest blitzmax-mode-indentation-test/issue-004-extern-function-indentation ()
+  (with-blitzmax-mode-test
+   ("issue_004_b.bmx" :indent t)
+   (should (string= (cleaned-buffer-string) (fixture "issue_004_b.bmx")))))
+
 
 ;;; blitzmax-mode-indentation-test.el ends here

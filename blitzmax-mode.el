@@ -287,6 +287,12 @@ Returns `t` if in code, `nil` if in a comment or string."
   "Check if the current function or method is abstract."
   (looking-at blitzmax-mode-abstract-defun-regexp))
 
+(defun blitzmax-mode--externed-function-p ()
+  "Check if the current function is part of an `Extern` block."
+  (save-excursion
+    (blitzmax-mode--find-matching-extern)
+    (looking-at blitzmax-mode-extern-start-regexp)))
+
 (defun blitzmax-mode--previous-line-of-code ()
   "Move to the previous line of code, skipping over any comments or whitespace."
   (if (not (bobp))
@@ -316,6 +322,10 @@ Returns `t` if in code, `nil` if in a comment or string."
              (setq level (+ level 1)))
             ((looking-at open-regexp)
              (setq level (- level 1)))))))
+
+(defun blitzmax-mode--find-matching-extern ()
+  "Find the start of an If/End If statement."
+  (blitzmax-mode--find-matching-statement blitzmax-mode-extern-start-regexp blitzmax-mode-extern-end-regexp))
 
 (defun blitzmax-mode--find-matching-if ()
   "Find the start of an If/End If statement."
@@ -433,7 +443,8 @@ Returns `t` if in code, `nil` if in a comment or string."
                (let ((indent (current-indentation)))
                  ;; All the various +indent regexps.
                  (cond ((and (looking-at blitzmax-mode-defun-start-regexp)
-                             (not (blitzmax-mode--abstract-defun-p)))
+                             (not (blitzmax-mode--abstract-defun-p))
+                             (not (blitzmax-mode--externed-function-p)))
                         (+ indent blitzmax-mode-indent))
 
                        ((looking-at blitzmax-mode-type-start-regexp)
