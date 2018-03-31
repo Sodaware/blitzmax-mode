@@ -260,8 +260,8 @@ Returns `t` if in code, `nil` if in a comment or string."
 
 (defun blitzmax-mode--fontify-buffer ()
   "Enable BlitzMax syntax highlighting for the current buffer."
-  (let ((blitzmax-mode-keywords-regexp  (regexp-opt blitzmax-mode-all-keywords  'symbols))
-        (blitzmax-mode-types-regexp     (regexp-opt blitzmax-mode-type-keywords 'symbols))
+  (let ((blitzmax-mode-keywords-regexp  (regexp-opt blitzmax-mode-all-keywords      'symbols))
+        (blitzmax-mode-types-regexp     (regexp-opt blitzmax-mode-type-keywords     'symbols))
         (blitzmax-mode-constants-regexp (regexp-opt blitzmax-mode-constant-keywords 'symbols)))
 
     ;; Build highlight table.
