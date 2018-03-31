@@ -53,22 +53,11 @@
 
 ;;; Code:
 
-(defvar blitzmax-mode-hook ())
-
-(defun blitzmax-mode--insert-comment (arg)
-  "Comment or uncomment current line or region specific in ARG."
-  (interactive "*P")
-  (require 'newcomment)
-  (let ((deactivate-mark nil)
-        (comment-start "'")
-        (comment-end ""))
-    (comment-dwim arg)))
-
-
 ;; --------------------------------------------------
 ;; -- Local Variables
 
 (defvar blitzmax-mode-abbrev-table nil)
+(defvar blitzmax-mode-hook () )
 
 
 ;; --------------------------------------------------
@@ -512,9 +501,6 @@ Returns `t` if in code, `nil` if in a comment or string."
     (make-local-variable 'pre-abbrev-expand-hook)
     (add-hook 'pre-abbrev-expand-hook #'blitzmax-mode--capitalize-keywords)
     (abbrev-mode 1))
-
-  ;; Add keys.
-  (define-key blitzmax-mode-map [remap comment-dwim] #'blitzmax-mode--insert-comment)
 
   ;; Comment: "'".
   (modify-syntax-entry ?\' "< b" blitzmax-mode-syntax-table)
