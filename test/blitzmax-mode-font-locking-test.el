@@ -19,4 +19,35 @@
    (should-not (equal 'font-lock-keyword-face (get-text-property 15 'face)))))
 
 
+;; --------------------------------------------------
+;; -- Comment Font-Locking
+
+(ert-deftest blitzmax-mode-font-locking-test/test-single-line-comments ()
+  (with-blitzmax-mode-test
+   ("comments_font_locking.bmx")
+
+   ;; First line is a comment.
+   (should (equal 'font-lock-comment-face (get-text-property 1 'face)))
+
+   ;; Second line is highlighted
+   (should (equal 'font-lock-keyword-face (get-text-property 21 'face)))
+
+   ;; Third line is a comment
+   (should (equal 'font-lock-comment-face (get-text-property 51 'face)))))
+
+(ert-deftest blitzmax-mode-font-locking-test/test-multi-line-comments ()
+  (with-blitzmax-mode-test
+   ("comments_font_locking.bmx")
+
+   ;; Opening statement and first line  of REM is a comment.
+   (should (equal 'font-lock-comment-face (get-text-property 84 'face)))
+   (should (equal 'font-lock-comment-face (get-text-property 88 'face)))
+
+   ;; Nothing is highlighted inside the REM
+   (should-not (equal 'font-lock-keyword-face (get-text-property 118 'face)))
+
+   ;; No longer a comment outside rem.
+   (should-not (equal 'font-lock-comment-face (get-text-property 166 'face)))))
+
+
 ;;; blitzmax-mode-font-locking-test.el ends here

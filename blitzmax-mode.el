@@ -275,6 +275,11 @@ Returns `t` if in code, `nil` if in a comment or string."
     (setq font-lock-defaults
           '(blitzmax-mode-font-lock-keywords nil t))))
 
+(defconst blitzmax-mode--syntax-propertize-function
+  (syntax-propertize-rules
+   ("\\_<\\([Rr]\\)em\\_>"        (1 "<"))   ;; Start of comment.
+   ("\\_<[Ee]nd[ ]?Re\\(m\\)\\_>" (1 ">")))) ;; End of comment.
+
 
 ;; --------------------------------------------------
 ;; -- Indentation functions
@@ -533,6 +538,9 @@ Returns `t` if in code, `nil` if in a comment or string."
   ;; Comment: "'".
   (modify-syntax-entry ?\' "< b" blitzmax-mode-syntax-table)
   (modify-syntax-entry ?\n "> b" blitzmax-mode-syntax-table)
+
+  ;; Additional syntax support.
+  (setq syntax-propertize-function blitzmax-mode--syntax-propertize-function)
 
   ;; Run hooks.
   (run-hooks 'blitzmax-mode-hook))
