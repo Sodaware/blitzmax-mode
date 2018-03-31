@@ -104,5 +104,10 @@
    ("issue_004_b.bmx" :indent t)
    (should (string= (cleaned-buffer-string) (fixture "issue_004_b.bmx")))))
 
+;; Returning a name with `Abstract` in it breaks indentation
+(ert-deftest blitzmax-mode-indentation-test/issue-006-abstract-type-indentation ()
+  (with-blitzmax-mode-test
+   ("issue_006.bmx" :indent t)
+   (should (string= (cleaned-buffer-string) (fixture "issue_006.bmx")))))
 
 ;;; blitzmax-mode-indentation-test.el ends here

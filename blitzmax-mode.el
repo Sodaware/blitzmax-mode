@@ -83,7 +83,7 @@
   (concat
    "^[\t ]*\\([Mm]ethod\\|[Ff]unction\\)"
    "[ \t ]+\\(\\w+\\)[ \t ]*(?"
-   ".*[Aa]bstract"))
+   ".*[ \t]+[Aa]bstract"))
 
 (defconst blitzmax-mode-extern-start-regexp
   "^[\t ]*[Ee]xtern")
