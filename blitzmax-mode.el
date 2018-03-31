@@ -66,7 +66,7 @@
 (defconst blitzmax-mode-type-start-regexp
   (concat
    "^[ \t]*[Tt]ype"
-   "[ \t]+\\(\\w+\\)[ \t]*?"))
+   "[ \t]+_?\\(\\w+\\)[ \t]*?"))
 
 (defconst blitzmax-mode-type-end-regexp
   "^[ \t]*[Ee]nd[ ]*[Tt]ype")
@@ -74,7 +74,7 @@
 (defconst blitzmax-mode-defun-start-regexp
   (concat
    "^[\t ]*\\([Mm]ethod\\|[Ff]unction\\)"
-   "[ \t ]+\\(\\w+\\)[ \t ]*(?"))
+   "[ \t ]+_?\\(\\w+\\)[ \t ]*(?"))
 
 (defconst blitzmax-mode-defun-end-regexp
   "^[ \t]*[Ee]nd[ \t]*\\([Mm]ethod\\|[Ff]unction\\)")
