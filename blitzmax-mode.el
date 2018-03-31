@@ -484,6 +484,7 @@ Returns `t` if in code, `nil` if in a comment or string."
 ;; --------------------------------------------------
 ;; -- Main Mode
 
+;;;###autoload
 (define-derived-mode blitzmax-mode fundamental-mode
   "BlitzMax mode"
   "Major mode for editing BlitzMax source files."
@@ -492,11 +493,12 @@ Returns `t` if in code, `nil` if in a comment or string."
   (when blitzmax-mode-fontify-p
     (blitzmax-mode--fontify-buffer))
 
-  ;; Indent lines using BlitzMax mode.
+  ;; Enable smart indentation.
   (when blitzmax-mode-smart-indent-p
     (make-local-variable 'indent-line-function)
     (setq indent-line-function #'blitzmax-mode-indent-line))
 
+  ;; Enable automatic capitalization.
   (when blitzmax-mode-capitalize-keywords-p
     (make-local-variable 'pre-abbrev-expand-hook)
     (add-hook 'pre-abbrev-expand-hook #'blitzmax-mode--capitalize-keywords)
@@ -509,7 +511,7 @@ Returns `t` if in code, `nil` if in a comment or string."
   ;; Run hooks.
   (run-hooks 'blitzmax-mode-hook))
 
-;;;###Autoload
+;;;###autoload
 (add-to-list 'auto-mode-alist '("\\.bmx\\'" . blitzmax-mode))
 
 (provide 'blitzmax-mode)
