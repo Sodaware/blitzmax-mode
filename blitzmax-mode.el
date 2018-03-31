@@ -85,6 +85,12 @@
    "[ \t ]+\\(\\w+\\)[ \t ]*(?"
    ".*[Aa]bstract"))
 
+(defconst blitzmax-mode-extern-start-regexp
+  "^[\t ]*[Ee]xtern")
+
+(defconst blitzmax-mode-extern-end-regexp
+  "^[ \t]*[Ee]nd[ ]*[Ee]xtern")
+
 (defconst blitzmax-mode-if-regexp "^[ \t]*[Ii]f")
 (defconst blitzmax-mode-if-oneline-regexp "^[ \t]*[Ii]f.*[Th]en[\\ t:]*[[:alnum:]]+[^']+?")
 (defconst blitzmax-mode-else-regexp "^[ \t]*[Ee]lse\\([Ii]f\\)?")
@@ -346,6 +352,11 @@ Returns `t` if in code, `nil` if in a comment or string."
                  (looking-at blitzmax-mode-type-end-regexp))
              0)
 
+            ;; Don't indent if at the start of end of an Extern
+            ((or (looking-at blitzmax-mode-extern-start-regexp)
+                 (looking-at blitzmax-mode-extern-end-regexp))
+             0)
+
             ;; Don't indent if on a label (#whatever).
             ((or (looking-at blitzmax-mode-label-regexp))
              0)
@@ -426,6 +437,10 @@ Returns `t` if in code, `nil` if in a comment or string."
                         (+ indent blitzmax-mode-indent))
 
                        ((looking-at blitzmax-mode-type-start-regexp)
+                        (+ indent blitzmax-mode-indent))
+
+                       ;; Extern block.
+                       ((looking-at blitzmax-mode-extern-start-regexp)
                         (+ indent blitzmax-mode-indent))
 
                        ;; "Else"/"ElseIf is always indented

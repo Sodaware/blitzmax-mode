@@ -92,4 +92,11 @@
    ("issue_002.bmx" :indent t)
    (should (string= (cleaned-buffer-string) (fixture "issue_002.bmx")))))
 
+;; Extern does not increase indent.
+(ert-deftest blitzmax-mode-indentation-test/issue-004-extern-indentation ()
+  (with-blitzmax-mode-test
+   ("issue_004_a.bmx" :indent t)
+   (should (string= (cleaned-buffer-string) (fixture "issue_004_a.bmx")))))
+
+
 ;;; blitzmax-mode-indentation-test.el ends here
