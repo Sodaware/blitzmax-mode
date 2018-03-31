@@ -423,65 +423,42 @@ Returns `t` if in code, `nil` if in a comment or string."
              (while (looking-at blitzmax-mode-label-regexp)
                (blitzmax-mode--previous-line-of-code))
 
-             (cond
-              ((looking-at blitzmax-mode-continuation-regexp)
-               (blitzmax-mode--find-original-statement)
-               ;; Indent continuation line under matching open paren,
-               ;; or else one word in.
-               (let* ((orig-stmt (point))
-                      (matching-open-paren
-                       (condition-case ()
-                           (save-excursion
-                             (goto-char original-point)
-                             (beginning-of-line)
-                             (backward-up-list 1)
-                             ;; Only if point is now w/in cont. block.
-                             (if (<= orig-stmt (point))
-                                 (current-column)))
-                         (error nil))))
-                 (cond (matching-open-paren
-                        (1+ matching-open-paren))
-                       (t
-                        ;; Else, after first word on original line.
-                        (back-to-indentation)
-                        (current-column)))))
-              (t
-               (blitzmax-mode--find-original-statement)
-               (let ((indent (current-indentation)))
-                 ;; All the various +indent regexps.
-                 (cond ((and (looking-at blitzmax-mode-defun-start-regexp)
-                             (not (blitzmax-mode--abstract-defun-p))
-                             (not (blitzmax-mode--externed-function-p)))
-                        (+ indent blitzmax-mode-indent))
+             (blitzmax-mode--find-original-statement)
+             (let ((indent (current-indentation)))
+               ;; All the various +indent regexps.
+               (cond ((and (looking-at blitzmax-mode-defun-start-regexp)
+                           (not (blitzmax-mode--abstract-defun-p))
+                           (not (blitzmax-mode--externed-function-p)))
+                      (+ indent blitzmax-mode-indent))
 
-                       ((looking-at blitzmax-mode-type-start-regexp)
-                        (+ indent blitzmax-mode-indent))
+                     ((looking-at blitzmax-mode-type-start-regexp)
+                      (+ indent blitzmax-mode-indent))
 
-                       ;; Extern block.
-                       ((looking-at blitzmax-mode-extern-start-regexp)
-                        (+ indent blitzmax-mode-indent))
+                     ;; Extern block.
+                     ((looking-at blitzmax-mode-extern-start-regexp)
+                      (+ indent blitzmax-mode-indent))
 
-                       ;; "Else"/"ElseIf is always indented
-                       ((looking-at blitzmax-mode-else-regexp)
-                        (+ indent blitzmax-mode-indent))
+                     ;; "Else"/"ElseIf is always indented
+                     ((looking-at blitzmax-mode-else-regexp)
+                      (+ indent blitzmax-mode-indent))
 
-                       ;; Check if the "If" is a multi-line one.
-                       ((and (looking-at blitzmax-mode-if-regexp)
-                             (not (blitzmax-mode--one-line-if-p)))
-                        (+ indent blitzmax-mode-indent))
+                     ;; Check if the "If" is a multi-line one.
+                     ((and (looking-at blitzmax-mode-if-regexp)
+                           (not (blitzmax-mode--one-line-if-p)))
+                      (+ indent blitzmax-mode-indent))
 
-                       ((or (looking-at blitzmax-mode-select-regexp)
-                            (looking-at blitzmax-mode-case-regexp))
-                        (+ indent blitzmax-mode-indent))
+                     ((or (looking-at blitzmax-mode-select-regexp)
+                          (looking-at blitzmax-mode-case-regexp))
+                      (+ indent blitzmax-mode-indent))
 
-                       ((or (looking-at blitzmax-mode-for-regexp)
-                            (looking-at blitzmax-mode-while-regexp)
-                            (looking-at blitzmax-mode-repeat-regexp))
-                        (+ indent blitzmax-mode-indent))
+                     ((or (looking-at blitzmax-mode-for-regexp)
+                          (looking-at blitzmax-mode-while-regexp)
+                          (looking-at blitzmax-mode-repeat-regexp))
+                      (+ indent blitzmax-mode-indent))
 
-                       ;; By default, just copy indent from prev line.
-                       (t
-                        indent))))))))))
+                     ;; By default, just copy indent from prev line.
+                     (t
+                      indent))))))))
 
 (defun blitzmax-mode--indent-to-column (col)
   "Indent current line to COL."
