@@ -1,4 +1,4 @@
-;;; blitzmax-mode.el --- A mode for editing BlitzMax programs.
+;;; blitzmax-mode.el --- A mode for editing BlitzMax programs. -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2012-2018 Phil Newton
 
