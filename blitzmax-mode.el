@@ -336,7 +336,9 @@ Returns `t` if in code, `nil` if in a comment or string."
 
 (defun blitzmax-mode--find-matching-if ()
   "Find the start of an If/End If statement."
-  (blitzmax-mode--find-matching-statement blitzmax-mode-if-regexp blitzmax-mode-endif-regexp))
+  (blitzmax-mode--find-matching-statement blitzmax-mode-if-regexp blitzmax-mode-endif-regexp)
+  (when (blitzmax-mode--one-line-if-p)
+    (blitzmax-mode--find-matching-if)))
 
 (defun blitzmax-mode--find-matching-select ()
   "Find the start of a Select/End Select statement."
@@ -378,7 +380,7 @@ Returns `t` if in code, `nil` if in a comment or string."
             ((or (looking-at blitzmax-mode-label-regexp))
              0)
 
-            ;; If in an Else/End If - indent to current indentation.
+            ;; If in an Else/End If - indent to indentation of the matching If.
             ((or (looking-at blitzmax-mode-else-regexp)
                  (looking-at blitzmax-mode-endif-regexp))
              (blitzmax-mode--find-matching-if)
