@@ -88,4 +88,8 @@
 (ert-deftest blitzmax-mode-indentation-test/issue-009-underscore-types-indentation ()
   (test-blitzmax-mode-indentation "issue_009.bmx"))
 
+;; Issue #12 - Nested single-line if statements break things
+(ert-deftest blitzmax-mode-indentation-test/issue-012-nested-if-indentation ()
+  (test-blitzmax-mode-indentation "issue_012.bmx"))
+
 ;;; blitzmax-mode-indentation-test.el ends here
