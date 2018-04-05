@@ -50,4 +50,15 @@
    (should-not (equal 'font-lock-comment-face (get-text-property 166 'face)))))
 
 
+;; --------------------------------------------------
+;; -- Bug fixes
+
+(ert-deftest blitzmax-mode-font-locking-test/issue-11 ()
+  (with-blitzmax-mode-test
+   ("issue_011.bmx")
+
+   ;; Text after the backslash should not be a string
+   (should-not (equal 'font-lock-string-face (get-text-property 50 'face)))))
+
+
 ;;; blitzmax-mode-font-locking-test.el ends here

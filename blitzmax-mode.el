@@ -520,6 +520,9 @@ Returns `t` if in code, `nil` if in a comment or string."
   (modify-syntax-entry ?\' "< b" blitzmax-mode-syntax-table)
   (modify-syntax-entry ?\n "> b" blitzmax-mode-syntax-table)
 
+  ;; Don't treat \ as an escape char. Treat tilde as one.
+  (modify-syntax-entry ?\\ "." blitzmax-mode-syntax-table)
+
   ;; Additional syntax support.
   (setq syntax-propertize-function blitzmax-mode--syntax-propertize-function)
 
