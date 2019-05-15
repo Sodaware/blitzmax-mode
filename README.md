@@ -3,6 +3,8 @@
 This project adds a new major mode to GNU Emacs for editing BlitzMax source
 files. It supports keyword highlighting and automatic indentation.
 
+![blitzmax-mode in action](https://www.sodaware.net/assets/images/projects/blitzmax-mode/blitzmax-mode-screenshot.png)
+
 
 ## Installation
 
