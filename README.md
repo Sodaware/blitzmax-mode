@@ -42,6 +42,25 @@ will automatically switch to `blitzmax-mode** when enabled.
   `bmk`. Empty by default.
 
 
+## Compiling Projects with Projectile
+
+[Projectile](https://github.com/bbatsov/projectile) is a great project for
+navigating large projects. It can be configured to build a BlitzMax application
+by setting `projectile-project-compilation-cmd` in the project's
+`.dir-locals.el` file.
+
+For example, the following would go in `.dir-locals.el` in the projects
+folder. It would compile the contents of `src/my_app.bmx` in release + threaded
+mode and save the executable as `my_app`:
+
+```elisp
+((nil . ((projectile-project-compilation-cmd . "bmk makeapp -r -h -o my_app src/my_app.bmx"))))
+```
+
+The current project can then be compiled by running `projectile-compile-project`
+(bound to `C-c p c` by default).
+
+
 ## Current Features
 
 * Basic syntax highlighting
