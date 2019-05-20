@@ -44,10 +44,10 @@ will automatically switch to `blitzmax-mode** when enabled.
 
 ## Compiling Projects with Projectile
 
-[Projectile](https://github.com/bbatsov/projectile) is a great project for
-navigating large projects. It can be configured to build a BlitzMax application
-by setting `projectile-project-compilation-cmd` in the project's
-`.dir-locals.el` file.
+[Projectile](https://github.com/bbatsov/projectile) is a great Emacs package for
+organizing and navigating large projects. It can be configured to build a
+BlitzMax application by setting `projectile-project-compilation-cmd` in the
+project's `.dir-locals.el` file.
 
 For example, the following would go in `.dir-locals.el` in the projects
 folder. It would compile the contents of `src/my_app.bmx` in release + threaded
