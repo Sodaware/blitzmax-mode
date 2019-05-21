@@ -103,14 +103,14 @@
 (defconst blitzmax-mode-case-regexp "^[ \t]*\\([Cc]ase\\|[Dd]efault\\)")
 (defconst blitzmax-mode-select-end-regexp "^[ \t]*[Ee]nd[ \t]*[Ss]elect")
 
-(defconst blitzmax-mode-for-regexp "^[ \t]*[Ff]or")
+(defconst blitzmax-mode-for-regexp "^[ \t]*[Ff]or[ \t]+[[:alnum:]]+")
 (defconst blitzmax-mode-next-regexp "^[ \t]*[Nn]ext")
 
 (defconst blitzmax-mode-while-regexp "^[ \t]*[Ww]hile")
 (defconst blitzmax-mode-wend-regexp "^[ \t]*[Ww]end")
 
 (defconst blitzmax-mode-repeat-regexp "^[ \t]*[Rr]epeat")
-(defconst blitzmax-mode-until-regexp "^[ \t]*[Uu]ntil")
+(defconst blitzmax-mode-until-regexp "^[ \t]*\\([Ff]orever\\|[Uu]ntil\\)")
 
 (defconst blitzmax-mode-blank-regexp "^[ \t]*$")
 (defconst blitzmax-mode-comment-regexp "^[ \t]*\\s<.*$")
