@@ -60,6 +60,9 @@
 (ert-deftest blitzmax-mode-indentation-test/repeat-until ()
   (test-blitzmax-mode-indentation "repeat_until.bmx"))
 
+(ert-deftest blitzmax-mode-indentation-test/repeat-forever ()
+  (test-blitzmax-mode-indentation "repeat_forever.bmx"))
+
 
 ;; --------------------------------------------------
 ;; -- Bugs
