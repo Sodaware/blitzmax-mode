@@ -19,7 +19,7 @@ To manually install this extension:
 
 Once everything is loaded, blitzmax-mode can be enabled for a buffer by running
 `M-x blitzmax-mode`. The mode also associates itself with `.bmx` files, so they
-will automatically switch to `blitzmax-mode** when enabled.
+will automatically switch to `blitzmax-mode` when enabled.
 
 
 ## Configuration
