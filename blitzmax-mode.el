@@ -362,105 +362,106 @@ Returns `t` if in code, `nil` if in a comment or string."
 
 (defun blitzmax-mode--calculate-indent ()
   "Calculate the indent level for the current line."
-  (let ((original-point (point)))
-    (save-excursion
-      (beginning-of-line)
+  (save-excursion
+    (beginning-of-line)
 
-      ;; Don't indent if at the start or end of a type.
-      (cond ((or (looking-at blitzmax-mode-type-start-regexp)
-                 (looking-at blitzmax-mode-type-end-regexp))
-             0)
+    ;; Don't indent if at the start or end of a type.
+    (cond ((or (looking-at blitzmax-mode-type-start-regexp)
+               (looking-at blitzmax-mode-type-end-regexp))
+           0)
 
-            ;; Don't indent if at the start of end of an Extern
-            ((or (looking-at blitzmax-mode-extern-start-regexp)
-                 (looking-at blitzmax-mode-extern-end-regexp))
-             0)
+          ;; Don't indent if at the start of end of an Extern
+          ((or (looking-at blitzmax-mode-extern-start-regexp)
+               (looking-at blitzmax-mode-extern-end-regexp))
+           0)
 
-            ;; Don't indent if on a label (#whatever).
-            ((or (looking-at blitzmax-mode-label-regexp))
-             0)
+          ;; Don't indent if on a label (#whatever).
+          ((or (looking-at blitzmax-mode-label-regexp))
+           0)
 
-            ;; If in an Else/End If - indent to indentation of the matching If.
-            ((or (looking-at blitzmax-mode-else-regexp)
-                 (looking-at blitzmax-mode-endif-regexp))
-             (blitzmax-mode--find-matching-if)
-             (current-indentation))
+          ;; If in an Else/End If - indent to indentation of the matching If.
+          ((or (looking-at blitzmax-mode-else-regexp)
+               (looking-at blitzmax-mode-endif-regexp))
+           (blitzmax-mode--find-matching-if)
+           (current-indentation))
 
-            ;; Remove indent for end function / end method
-            ((looking-at blitzmax-mode-defun-end-regexp)
-             (blitzmax-mode--find-matching-defun)
-             (current-indentation))
+          ;; Remove indent for end function / end method
+          ((looking-at blitzmax-mode-defun-end-regexp)
+           (blitzmax-mode--find-matching-defun)
+           (current-indentation))
 
-            ;; All the other matching pairs act alike.
-            ;; For/Next
-            ((looking-at blitzmax-mode-next-regexp)
-             (blitzmax-mode--find-matching-for)
-             (current-indentation))
+          ;; All the other matching pairs act alike.
+          ;; For/Next
+          ((looking-at blitzmax-mode-next-regexp)
+           (blitzmax-mode--find-matching-for)
+           (current-indentation))
 
-            ;; while/wend
-            ((looking-at blitzmax-mode-wend-regexp)
-             (blitzmax-mode--find-matching-while)
-             (current-indentation))
+          ;; while/wend
+          ((looking-at blitzmax-mode-wend-regexp)
+           (blitzmax-mode--find-matching-while)
+           (current-indentation))
 
-            ;; repeat/until
-            ((looking-at blitzmax-mode-until-regexp)
-             (blitzmax-mode--find-matching-repeat)
-             (current-indentation))
+          ;; repeat/until
+          ((looking-at blitzmax-mode-until-regexp)
+           (blitzmax-mode--find-matching-repeat)
+           (current-indentation))
 
-            ;; select case/end select
-            ((looking-at blitzmax-mode-select-end-regexp)
-             (blitzmax-mode--find-matching-select)
-             (current-indentation))
+          ;; select case/end select
+          ((looking-at blitzmax-mode-select-end-regexp)
+           (blitzmax-mode--find-matching-select)
+           (current-indentation))
 
-            ;; CASE within a SELECT block.
-            ((looking-at blitzmax-mode-case-regexp)
-             (blitzmax-mode--find-matching-select)
-             (+ (current-indentation) blitzmax-mode-indent))
+          ;; CASE within a SELECT block.
+          ((looking-at blitzmax-mode-case-regexp)
+           (blitzmax-mode--find-matching-select)
+           (+ (current-indentation) blitzmax-mode-indent))
 
-            ;; All other indentation depends on the previous lines.
-            (t
-             (blitzmax-mode--previous-line-of-code)
+          ;; All other indentation depends on the previous lines.
+          (t
+           (blitzmax-mode--previous-line-of-code)
 
-             ;; Skip over label lines, which always have 0 indent.
-             (while (looking-at blitzmax-mode-label-regexp)
-               (blitzmax-mode--previous-line-of-code))
+           ;; Skip over label lines, which always have 0 indent.
+           (while (looking-at blitzmax-mode-label-regexp)
+             (blitzmax-mode--previous-line-of-code))
 
-             (blitzmax-mode--find-original-statement)
-             (let ((indent (current-indentation)))
-               ;; All the various +indent regexps.
-               (cond ((and (looking-at blitzmax-mode-defun-start-regexp)
-                           (not (blitzmax-mode--abstract-defun-p))
-                           (not (blitzmax-mode--externed-function-p)))
-                      (+ indent blitzmax-mode-indent))
+           (blitzmax-mode--find-original-statement)
+           (let ((indent (current-indentation)))
+             ;; All the various +indent regexps.
+             (cond ((and (looking-at blitzmax-mode-defun-start-regexp)
+                         (not (blitzmax-mode--abstract-defun-p))
+                         (not (blitzmax-mode--externed-function-p)))
+                    (+ indent blitzmax-mode-indent))
 
-                     ((looking-at blitzmax-mode-type-start-regexp)
-                      (+ indent blitzmax-mode-indent))
+                   ((looking-at blitzmax-mode-type-start-regexp)
+                    (+ indent blitzmax-mode-indent))
 
-                     ;; Extern block.
-                     ((looking-at blitzmax-mode-extern-start-regexp)
-                      (+ indent blitzmax-mode-indent))
+                   ;; Extern block.
+                   ((looking-at blitzmax-mode-extern-start-regexp)
+                    (+ indent blitzmax-mode-indent))
 
-                     ;; "Else"/"ElseIf is always indented
-                     ((looking-at blitzmax-mode-else-regexp)
-                      (+ indent blitzmax-mode-indent))
+                   ;; "Else"/"ElseIf is always indented
+                   ((looking-at blitzmax-mode-else-regexp)
+                    (+ indent blitzmax-mode-indent))
 
-                     ;; Check if the "If" is a multi-line one.
-                     ((and (looking-at blitzmax-mode-if-regexp)
-                           (not (blitzmax-mode--one-line-if-p)))
-                      (+ indent blitzmax-mode-indent))
+                   ;; Check if the "If" is a multi-line one.
+                   ((and (looking-at blitzmax-mode-if-regexp)
+                         (not (blitzmax-mode--one-line-if-p)))
+                    (+ indent blitzmax-mode-indent))
 
-                     ((or (looking-at blitzmax-mode-select-regexp)
-                          (looking-at blitzmax-mode-case-regexp))
-                      (+ indent blitzmax-mode-indent))
+                   ;; Select...Case block.
+                   ((or (looking-at blitzmax-mode-select-regexp)
+                        (looking-at blitzmax-mode-case-regexp))
+                    (+ indent blitzmax-mode-indent))
 
-                     ((or (looking-at blitzmax-mode-for-regexp)
-                          (looking-at blitzmax-mode-while-regexp)
-                          (looking-at blitzmax-mode-repeat-regexp))
-                      (+ indent blitzmax-mode-indent))
+                   ;; For...Next, While...Wend and Repeat...Until loops.
+                   ((or (looking-at blitzmax-mode-for-regexp)
+                        (looking-at blitzmax-mode-while-regexp)
+                        (looking-at blitzmax-mode-repeat-regexp))
+                    (+ indent blitzmax-mode-indent))
 
-                     ;; By default, just copy indent from prev line.
-                     (t
-                      indent))))))))
+                   ;; If nothing has changed, copy indent from prev line.
+                   (t
+                    indent)))))))
 
 (defun blitzmax-mode--indent-to-column (col)
   "Indent current line to COL."
