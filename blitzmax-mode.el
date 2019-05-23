@@ -1,10 +1,10 @@
 ;;; blitzmax-mode.el --- A mode for editing BlitzMax programs. -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2012-2018 Phil Newton
+;; Copyright (C) 2012-2019 Phil Newton
 
 ;; Author: Phil Newton
 ;; Keywords: language modes blitzmax
-;; URL: https://www.philnewton.net/code/blitzmax-mode/
+;; URL: https://www.sodaware.net/dev/tools/blitzmax-mode/
 ;; Version: 1.0.0
 
 ;; This file is NOT part of GNU Emacs.
