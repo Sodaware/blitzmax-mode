@@ -65,6 +65,13 @@
 
 
 ;; --------------------------------------------------
+;; -- Try/Catch/Finally
+
+(ert-deftest blitzmax-mode-indentation-test/try_catch ()
+  (test-blitzmax-mode-indentation "try_catch.bmx"))
+
+
+;; --------------------------------------------------
 ;; -- Bugs
 
 ;; Abstract functions and methods increase indent but shouldn't.
