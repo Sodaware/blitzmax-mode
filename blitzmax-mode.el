@@ -112,6 +112,10 @@
 (defconst blitzmax-mode-repeat-regexp "^[ \t]*[Rr]epeat")
 (defconst blitzmax-mode-until-regexp "^[ \t]*\\([Ff]orever\\|[Uu]ntil\\)")
 
+(defconst blitzmax-mode-try-regexp "^[ \t]*[Tt]ry")
+(defconst blitzmax-mode-catch-regexp "^[ \t]*[Cc]atch")
+(defconst blitzmax-mode-try-end-regexp "^[ \t]*[Ed]nd[ \t]*[Tt]ry")
+
 (defconst blitzmax-mode-blank-regexp "^[ \t]*$")
 (defconst blitzmax-mode-comment-regexp "^[ \t]*\\s<.*$")
 
@@ -360,6 +364,10 @@ Returns `t` if in code, `nil` if in a comment or string."
   "Find the start of a Method/End Method OR Function/End Function statement."
   (blitzmax-mode--find-matching-statement blitzmax-mode-defun-start-regexp blitzmax-mode-defun-end-regexp))
 
+(defun blitzmax-mode--find-matching-try ()
+  "Find the start of a Try/Catch statement."
+  (blitzmax-mode--find-matching-statement blitzmax-mode-try-regexp blitzmax-mode-try-end-regexp))
+
 (defun blitzmax-mode--calculate-indent ()
   "Calculate the indent level for the current line."
   (save-excursion
@@ -416,6 +424,12 @@ Returns `t` if in code, `nil` if in a comment or string."
            (blitzmax-mode--find-matching-select)
            (+ (current-indentation) blitzmax-mode-indent))
 
+          ;; Try/End Try block.
+          ((or (looking-at blitzmax-mode-catch-regexp)
+               (looking-at blitzmax-mode-try-end-regexp))
+           (blitzmax-mode--find-matching-try)
+           (current-indentation))
+
           ;; All other indentation depends on the previous lines.
           (t
            (blitzmax-mode--previous-line-of-code)
@@ -457,6 +471,11 @@ Returns `t` if in code, `nil` if in a comment or string."
                    ((or (looking-at blitzmax-mode-for-regexp)
                         (looking-at blitzmax-mode-while-regexp)
                         (looking-at blitzmax-mode-repeat-regexp))
+                    (+ indent blitzmax-mode-indent))
+
+                   ;; Try...End Try.
+                   ((or (looking-at blitzmax-mode-try-regexp)
+                        (looking-at blitzmax-mode-catch-regexp))
                     (+ indent blitzmax-mode-indent))
 
                    ;; If nothing has changed, copy indent from prev line.
