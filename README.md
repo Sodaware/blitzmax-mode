@@ -39,7 +39,32 @@ will automatically switch to `blitzmax-mode` when enabled.
   `nil`. `t` by default.
 
 * `blitzmax-mode-compiler-pathname` - Full pathname to the BlitzMax compiler
-  `bmk`. Empty by default.
+  `bmk`. "bmk" by default.
+
+* `blitzmax-mode-use-quickrun-p` - Enable
+  [quickrun](https://github.com/syohex/emacs-quickrun/) support by setting this
+  to `t`. `t` by default.
+
+
+## Running the current buffer using quickrun
+
+[quickrun.el](https://github.com/syohex/emacs-quickrun/) is an extension for
+compiling and executing the current buffer.
+
+If `blitzmax-mode-use-quickrun-p` is set to `t`, quickrun support will be
+activated when switching to `blitzmax-mode`. Calling `M-x quickrun` will compile
+the current buffer in debug + threaded mode and execute the resulting file.
+
+To bind quickrun to a key press (`C-c C-c` in this example), add the following
+to `init.el` (or wherever your Emacs config resides):
+
+```elisp
+(eval-after-load "blitzmax-mode"
+  '(define-key blitzmax-mode-map (kbd "C-c C-c") 'quickrun))
+```
+
+Quickrun will delete the compiled executable once the process has finished
+running.
 
 
 ## Compiling Projects with Projectile
@@ -66,6 +91,7 @@ The current project can then be compiled by running `projectile-compile-project`
 * Basic syntax highlighting
 * Automatic indentation
 * Capitalizes keywords automatically
+* Quickrun support
 
 
 ## Planned Features

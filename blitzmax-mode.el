@@ -47,8 +47,11 @@
 (defvar blitzmax-mode-capitalize-keywords-p t
   "Whether to automatically capitalize keywords.")
 
-(defvar blitzmax-mode-compiler-pathname nil
+(defvar blitzmax-mode-compiler-pathname "bmk"
   "The full pathname of the BlitzMax compiler (i.e. bmk.")
+
+(defvar blitzmax-mode-use-quickrun-p t
+  "Whether to enable quickrun support.")
 
 
 ;;; Code:
@@ -58,6 +61,7 @@
 
 (defvar blitzmax-mode-abbrev-table nil)
 (defvar blitzmax-mode-hook () )
+(defvar blitzmax-mode--quickrun-registered-p nil)
 
 
 ;; --------------------------------------------------
@@ -514,6 +518,30 @@ Returns `t` if in code, `nil` if in a comment or string."
 
 
 ;; --------------------------------------------------
+;; -- Quickrun Support
+
+(defun blitzmax-mode--register-quickrun-support ()
+  "Register BlitzMax with quickrun."
+
+  ;; Only activate if quickrun is loaded.
+  (when (fboundp 'quickrun-add-command)
+    ;; Add blitzmax to quickrun.
+    ;; Will compile the current buffer in threaded + debug mode and then run it.
+    (quickrun-add-command
+     "blitzmax"
+     `((:command  . ,blitzmax-mode-compiler-pathname)
+       (:cmdopt   . "makeapp -h -d -o %e")
+       (:exec     . ("%c %o %s"
+                     "%e %a"))
+       (:tempfile . nil)
+       (:remove   . ("%e")))
+     :mode 'blitxmax-mode)
+
+    ;; Add `.bmx` to list of quickrun file types.
+    (add-to-list 'quickrun-file-alist '("\\.bmx$" . "blitzmax"))))
+
+
+;; --------------------------------------------------
 ;; -- Main Mode
 
 ;;;###autoload
@@ -546,6 +574,11 @@ Returns `t` if in code, `nil` if in a comment or string."
 
   ;; Additional syntax support.
   (setq syntax-propertize-function blitzmax-mode--syntax-propertize-function)
+
+  ;; Enable quickrun support if user has enabled and not already activated.
+  (when (and blitzmax-mode-use-quickrun-p
+             (not blitzmax-mode--quickrun-registered-p))
+    (blitzmax-mode--register-quickrun-support))
 
   ;; Run hooks.
   (run-hooks 'blitzmax-mode-hook))
