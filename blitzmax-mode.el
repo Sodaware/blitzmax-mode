@@ -2,10 +2,11 @@
 
 ;; Copyright (C) 2012-2019 Phil Newton
 
-;; Author: Phil Newton
-;; Keywords: language modes blitzmax
-;; URL: https://www.sodaware.net/dev/tools/blitzmax-mode/
 ;; Version: 1.0.0
+;; Keywords: languages blitzmax
+;; Author: Phil Newton
+;; URL: https://www.sodaware.net/dev/tools/blitzmax-mode/
+;; Package-Requires: ((emacs "24"))
 
 ;; This file is NOT part of GNU Emacs.
 
@@ -30,7 +31,7 @@
 
 ;;; Commentary:
 
-;; This is a simple mode for working with BlitzMax.  It supports highlighting of
+;; This is a major mode for editing BlitzMax files.  It supports highlighting of
 ;; standard keywords and indentation.
 
 ;;; Configuration:
@@ -60,7 +61,7 @@
 ;; -- Local Variables
 
 (defvar blitzmax-mode-abbrev-table nil)
-(defvar blitzmax-mode-hook () )
+(defvar blitzmax-mode-hook ())
 (defvar blitzmax-mode--quickrun-registered-p nil)
 
 
@@ -137,6 +138,7 @@
     "CreateGNetObject" "CreateStaticBank" "GNetObjectRemote" "GNetTotalBytesIn"
     "SetChannelVolume" "SocketRemotePort" "StandardIOStream" "TStreamException"
     "bglAdjustTexSize" "bglCreateContext" "bglDeleteContext" "bglTexFromPixmap"
+    "HandleFromObject" "HandleToObject"
     "BigEndianStream" "CloseGNetObject" "CreateRamStream" "CreateTCPSocket"
     "CreateUDPSocket" "D3D7Max2DDriver" "GNetObjectLocal" "GNetObjectState"
     "GetGraphicsMode" "LoadAudioSample" "ResetCollisions" "SendGNetMessage"
@@ -153,7 +155,7 @@
     "BankCapacity" "CollideImage" "CreatePixmap" "GNetMessages" "GetGNetFloat"
     "GetImageFont" "GetLineWidth" "GetMaskColor" "ListAddFirst" "ListContains"
     "ListFindLink" "PauseChannel" "PixmapFormat" "PixmapHeight" "PixmapWindow"
-    "ResizePixmap" "RuntimeError" "ScriptEngine" "SetGNetFloat" "SetImageFont"
+    "ResizePixmap" "RuntimeError" "SetGNetFloat" "SetImageFont"
     "SetLineWidth" "SetMaskColor" "SetTransform" "SocketAccept" "SocketListen"
     "TAudioSample" "CloseSocket" "CloseStream" "CollideRect" "CreateImage"
     "CreateTimer" "CurrentDate" "CurrentTime" "EndFunction" "EndGraphics"
@@ -173,6 +175,7 @@
     "WriteFloat" "WritePixel" "WriteShort" "uncompress" "ChangeDir" "ClearList"
     "CloseFile" "CopyBytes" "CountList" "CreateDir" "DebugStop" "DeleteDir"
     "DrawImage" "EndExtern" "EndMethod" "EndSelect" "FlushKeys" "Framework"
+    "GCSetMode" "GCSuspend" "GCResume" "GCCollect" "GCMemAlloced" "GCEnter" "GCLeave"
     "GNetPeers" "GetHandle" "GetOrigin" "GrabImage" "HideMouse" "IncbinLen"
     "IncbinPtr" "LaunchDir" "LoadImage" "LoadSound" "LockImage" "MemExtend"
     "MilliSecs" "MouseDown" "MoveMouse" "PeekFloat" "PeekShort" "PlaySound"
