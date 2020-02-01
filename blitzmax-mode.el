@@ -119,7 +119,7 @@
 
 (defconst blitzmax-mode-try-regexp "^[ \t]*[Tt]ry")
 (defconst blitzmax-mode-catch-regexp "^[ \t]*[Cc]atch")
-(defconst blitzmax-mode-try-end-regexp "^[ \t]*[Ed]nd[ \t]*[Tt]ry")
+(defconst blitzmax-mode-try-end-regexp "^[ \t]*[Ee]nd[ \t]*[Tt]ry")
 
 (defconst blitzmax-mode-blank-regexp "^[ \t]*$")
 (defconst blitzmax-mode-comment-regexp "^[ \t]*\\s<.*$")
