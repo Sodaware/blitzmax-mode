@@ -97,7 +97,7 @@
   "^[ \t]*[Ee]nd[ ]*[Ee]xtern")
 
 (defconst blitzmax-mode-if-regexp "^[ \t]*[Ii]f")
-(defconst blitzmax-mode-if-oneline-regexp "^[ \t]*[Ii]f.*[Th]en[\\ t:]*[[:alnum:]]+[^']+?")
+(defconst blitzmax-mode-if-oneline-regexp "^[ \t]*[Ii]f.*[Tt]hen[\\ t:]*[[:alnum:]]+[^']+?")
 (defconst blitzmax-mode-else-regexp "^[ \t]*[Ee]lse\\([Ii]f\\)?")
 (defconst blitzmax-mode-endif-regexp "[ \t]*[Ee]nd[ \t]*[Ii]f")
 
