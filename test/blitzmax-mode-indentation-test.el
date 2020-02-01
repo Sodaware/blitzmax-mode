@@ -102,4 +102,8 @@
 (ert-deftest blitzmax-mode-indentation-test/issue-012-nested-if-indentation ()
   (test-blitzmax-mode-indentation "issue_012.bmx"))
 
+;; Issue #19 - Weird indentation error with if/endif
+(ert-deftest blitzmax-mode-indentation-test/issue-013-weird-if-indentation ()
+  (test-blitzmax-mode-indentation "issue_019.bmx"))
+
 ;;; blitzmax-mode-indentation-test.el ends here
