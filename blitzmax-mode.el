@@ -63,6 +63,7 @@
 (defvar blitzmax-mode-abbrev-table nil)
 (defvar blitzmax-mode-hook ())
 (defvar blitzmax-mode--quickrun-registered-p nil)
+(defvar blitzmax-mode-font-lock-keywords)
 
 
 ;; --------------------------------------------------
