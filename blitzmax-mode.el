@@ -542,14 +542,6 @@ Returns `t` if in code, `nil` if in a comment or string."
   ;; Add `.bmx` to list of quickrun file types.
   (add-to-list 'quickrun-file-alist '("\\.bmx$" . "blitzmax")))
 
-
-;; --------------------------------------------------
-;; -- Setup Hooks
-
-;;;###autoload
-(add-to-list 'auto-mode-alist '("\\.bmx\\'" . blitzmax-mode))
-
-
 ;; --------------------------------------------------
 ;; -- Main Mode
 
@@ -581,6 +573,9 @@ Returns `t` if in code, `nil` if in a comment or string."
 
   ;; Additional syntax support.
   (setq syntax-propertize-function blitzmax-mode--syntax-propertize-function))
+
+;;;###autoload
+(add-to-list 'auto-mode-alist '("\\.bmx\\'" . blitzmax-mode))
 
 (provide 'blitzmax-mode)
 ;;; blitzmax-mode.el ends here
