@@ -53,9 +53,6 @@
 (defvar blitzmax-mode-compiler-pathname "bmk"
   "The full pathname of the BlitzMax compiler (e.g. /usr/bin/bmk).")
 
-(defvar blitzmax-mode-use-quickrun-p t
-  "Whether to enable quickrun support.")
-
 
 ;;; Code:
 
@@ -526,11 +523,6 @@ Returns `t` if in code, `nil` if in a comment or string."
 ;; --------------------------------------------------
 ;; -- Quickrun Support
 
-(defun blitzmax-mode--setup-quickrun ()
-  "Set up 'blitzmax-mode' with quickrun if not already registered."
-  (when blitzmax-mode-use-quickrun-p
-    (blitzmax-mode--register-quickrun-support)))
-
 (defun blitzmax-mode--register-quickrun-support ()
   "Register BlitzMax with quickrun."
 
@@ -557,7 +549,7 @@ Returns `t` if in code, `nil` if in a comment or string."
 (add-to-list 'auto-mode-alist '("\\.bmx\\'" . blitzmax-mode))
 
 (with-eval-after-load 'quickrun
-  (blitzmax-mode--setup-quickrun))
+  (blitzmax-mode--register-quickrun-support))
 
 
 ;; --------------------------------------------------
