@@ -34,7 +34,10 @@
 ;; This is a major mode for editing BlitzMax files.  It supports syntax
 ;; highlighting, keyword capitalization, and automatic indentation.
 
-;; If quickrun is installed and enabled, this mode adds BlitzMax for quickrun.
+;; If you want to use quickrun integration, add below code to your init.el
+
+;;   (with-eval-after-load 'quickrun
+;;     (blitzmax-mode-quickrun-integration))
 
 ;;; Configuration:
 
@@ -523,7 +526,8 @@ Returns `t` if in code, `nil` if in a comment or string."
 ;; --------------------------------------------------
 ;; -- Quickrun Support
 
-(defun blitzmax-mode--register-quickrun-support ()
+;;;###autoload
+(defun blitzmax-mode-quickrun-integration ()
   "Register BlitzMax with quickrun."
 
   ;; Will compile the current buffer in threaded + debug mode and then run it.
@@ -547,9 +551,6 @@ Returns `t` if in code, `nil` if in a comment or string."
 
 ;;;###autoload
 (add-to-list 'auto-mode-alist '("\\.bmx\\'" . blitzmax-mode))
-
-(with-eval-after-load 'quickrun
-  (blitzmax-mode--register-quickrun-support))
 
 
 ;; --------------------------------------------------
