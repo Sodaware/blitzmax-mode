@@ -576,6 +576,8 @@ Returns `t` if in code, `nil` if in a comment or string."
 
 ;;;###autoload
 (add-to-list 'auto-mode-alist '("\\.bmx\\'" . blitzmax-mode))
+;;;###autoload
+(add-to-list 'interpreter-mode-alist '("bmx" . blitzmax-mode))
 
 (provide 'blitzmax-mode)
 ;;; blitzmax-mode.el ends here
