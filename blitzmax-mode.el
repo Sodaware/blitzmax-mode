@@ -251,13 +251,13 @@ Returns `t` if the table was created, `nil` if it already exists."
 Returns `t` if in code, `nil` if in a comment or string."
   (if (fboundp 'buffer-syntactic-context)
       (null (buffer-syntactic-context))
-      (let* ((beg (save-excursion
-                    (beginning-of-line)
-                    (point)))
-             (list
-              (parse-partial-sexp beg (point))))
-        (and (null (nth 3 list))      ;; Is inside string.
-             (null (nth 4 list))))))  ;; Is inside comment.
+    (let* ((beg (save-excursion
+                  (beginning-of-line)
+                  (point)))
+           (list
+            (parse-partial-sexp beg (point))))
+      (and (null (nth 3 list))      ;; Is inside string.
+           (null (nth 4 list))))))  ;; Is inside comment.
 
 (defun blitzmax-mode--capitalize-keywords ()
   "Automatically capitalize keywords if in a code context."
