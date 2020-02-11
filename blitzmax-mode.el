@@ -277,8 +277,8 @@ Returns `t` if in code, `nil` if in a comment or string."
 (defun blitzmax-mode--capitalize-keywords ()
   "Automatically capitalize keywords if in a code context."
   (setq local-abbrev-table
-        (if (blitzmax-mode--in-code-context-p)
-            blitzmax-mode-abbrev-table)))
+        (when (blitzmax-mode--in-code-context-p)
+          blitzmax-mode-abbrev-table)))
 
 
 ;; --------------------------------------------------
@@ -328,8 +328,8 @@ Returns `t` if in code, `nil` if in a comment or string."
 
 (defun blitzmax-mode--previous-line-of-code ()
   "Move to the previous line of code, skipping over any comments or whitespace."
-  (if (not (bobp))
-      (forward-line -1))
+  (unless (bobp)
+    (forward-line -1))
   (while (and (not (bobp))
               (or (looking-at blitzmax-mode-blank-regexp)
                   (looking-at blitzmax-mode-comment-regexp)))
