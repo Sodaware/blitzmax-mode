@@ -62,7 +62,6 @@
 (defvar blitzmax-mode-abbrev-table nil)
 (defvar blitzmax-mode-hook ())
 (defvar blitzmax-mode-font-lock-keywords)
-(defvar quickrun-file-alist)
 
 
 ;; --------------------------------------------------
@@ -524,6 +523,7 @@ Returns `t` if in code, `nil` if in a comment or string."
 ;; -- Quickrun Support
 
 (declare-function quickrun-add-command "quickrun")
+(defvar quickrun-file-alist)
 
 ;;;###autoload
 (defun blitzmax-mode-quickrun-integration ()
