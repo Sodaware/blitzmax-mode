@@ -31,8 +31,10 @@
 
 ;;; Commentary:
 
-;; This is a major mode for editing BlitzMax files.  It supports highlighting of
-;; standard keywords and indentation.
+;; This is a major mode for editing BlitzMax files.  It supports syntax
+;; highlighting, keyword capitalization, and automatic indentation.
+
+;; If quickrun is installed and enabled, this mode adds BlitzMax for quickrun.
 
 ;;; Configuration:
 
@@ -49,7 +51,7 @@
   "Whether to automatically capitalize keywords.")
 
 (defvar blitzmax-mode-compiler-pathname "bmk"
-  "The full pathname of the BlitzMax compiler (i.e. bmk.")
+  "The full pathname of the BlitzMax compiler (e.g. /usr/bin/bmk).")
 
 (defvar blitzmax-mode-use-quickrun-p t
   "Whether to enable quickrun support.")
@@ -257,8 +259,8 @@ Returns `t` if in code, `nil` if in a comment or string."
                     (point)))
              (list
               (parse-partial-sexp beg (point))))
-        (and (null (nth 3 list))      ; inside string.
-             (null (nth 4 list))))))  ; inside comment
+        (and (null (nth 3 list))      ;; Is inside string.
+             (null (nth 4 list))))))  ;; Is inside comment.
 
 (defun blitzmax-mode--capitalize-keywords ()
   "Automatically capitalize keywords if in a code context."
@@ -554,7 +556,6 @@ Returns `t` if in code, `nil` if in a comment or string."
 ;;;###autoload
 (add-to-list 'auto-mode-alist '("\\.bmx\\'" . blitzmax-mode))
 
-;; Enable quickrun support if user has enabled and not already activated.
 (with-eval-after-load 'quickrun
   (blitzmax-mode--setup-quickrun))
 
@@ -582,11 +583,11 @@ Returns `t` if in code, `nil` if in a comment or string."
     (add-hook 'pre-abbrev-expand-hook #'blitzmax-mode--capitalize-keywords)
     (abbrev-mode 1))
 
-  ;; Comment: "'".
+  ;; Add single line comments to syntax table.
   (modify-syntax-entry ?\' "< b" blitzmax-mode-syntax-table)
   (modify-syntax-entry ?\n "> b" blitzmax-mode-syntax-table)
 
-  ;; Don't treat \ as an escape char. Treat tilde as one.
+  ;; Modify syntax to not treat \ as an escape char. Treat ~ as one instead.
   (modify-syntax-entry ?\\ "." blitzmax-mode-syntax-table)
   (modify-syntax-entry ?~ "\\" blitzmax-mode-syntax-table)
 
