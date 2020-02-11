@@ -34,28 +34,42 @@
 ;; This is a major mode for editing BlitzMax files.  It supports syntax
 ;; highlighting, keyword capitalization, and automatic indentation.
 
-;; If quickrun is installed and enabled, this mode adds BlitzMax for quickrun.
+;; If you want to use quickrun integration, add below code to your init.el
+
+;;   (with-eval-after-load 'quickrun
+;;     (blitzmax-mode-quickrun-integration))
 
 ;;; Configuration:
 
-(defvar blitzmax-mode-indent 4
-  "Default indentation per nesting level.")
+(defgroup blitzmax nil
+  "Major mode for editing BlitzMax source files."
+  :group 'languages
+  :prefix "blitzmax-")
 
-(defvar blitzmax-mode-smart-indent-p t
-  "Whether to use smart-indentation.")
+(defcustom blitzmax-mode-indent 4
+  "Default indentation per nesting level."
+  :type 'integer
+  :group 'blitzmax)
 
-(defvar blitzmax-mode-fontify-p t
-  "Whether to fontify BlitzMax buffers.")
+(defcustom blitzmax-mode-smart-indent-p t
+  "Whether to use smart-indentation."
+  :type 'boolean
+  :group 'blitzmax)
 
-(defvar blitzmax-mode-capitalize-keywords-p t
-  "Whether to automatically capitalize keywords.")
+(defcustom blitzmax-mode-capitalize-keywords-p t
+  "Whether to automatically capitalize keywords."
+  :type 'boolean
+  :group 'blitzmax)
 
-(defvar blitzmax-mode-compiler-pathname "bmk"
-  "The full pathname of the BlitzMax compiler (e.g. /usr/bin/bmk).")
+(defcustom blitzmax-mode-compiler-pathname "bmk"
+  "The full pathname of the BlitzMax compiler (e.g. /usr/bin/bmk)."
+  :type 'string
+  :group 'blitzmax)
 
-(defvar blitzmax-mode-use-quickrun-p t
-  "Whether to enable quickrun support.")
-
+(defcustom blitzmax-mode-hook nil
+  "Hook run when entering blitzmax mode."
+  :type 'hook
+  :group 'hook)
 
 ;;; Code:
 
@@ -63,9 +77,7 @@
 ;; -- Local Variables
 
 (defvar blitzmax-mode-abbrev-table nil)
-(defvar blitzmax-mode-hook ())
 (defvar blitzmax-mode-font-lock-keywords)
-(defvar quickrun-file-alist)
 
 
 ;; --------------------------------------------------
@@ -233,8 +245,8 @@ a lowercase word, the second is the correctly-capitalized word."
   (let ((all-keywords (append blitzmax-mode-all-keywords
                               blitzmax-mode-type-keywords
                               blitzmax-mode-constant-keywords)))
-    (mapcar #'(lambda (word)
-                (list (downcase word) word))
+    (mapcar (lambda (word)
+              (list (downcase word) word))
             all-keywords)))
 
 (defun blitzmax-mode--create-abbrev-table ()
@@ -254,19 +266,19 @@ Returns `t` if the table was created, `nil` if it already exists."
 Returns `t` if in code, `nil` if in a comment or string."
   (if (fboundp 'buffer-syntactic-context)
       (null (buffer-syntactic-context))
-      (let* ((beg (save-excursion
-                    (beginning-of-line)
-                    (point)))
-             (list
-              (parse-partial-sexp beg (point))))
-        (and (null (nth 3 list))      ;; Is inside string.
-             (null (nth 4 list))))))  ;; Is inside comment.
+    (let* ((beg (save-excursion
+                  (beginning-of-line)
+                  (point)))
+           (list
+            (parse-partial-sexp beg (point))))
+      (and (null (nth 3 list))      ;; Is inside string.
+           (null (nth 4 list))))))  ;; Is inside comment.
 
 (defun blitzmax-mode--capitalize-keywords ()
   "Automatically capitalize keywords if in a code context."
   (setq local-abbrev-table
-        (if (blitzmax-mode--in-code-context-p)
-            blitzmax-mode-abbrev-table)))
+        (when (blitzmax-mode--in-code-context-p)
+          blitzmax-mode-abbrev-table)))
 
 
 ;; --------------------------------------------------
@@ -316,8 +328,8 @@ Returns `t` if in code, `nil` if in a comment or string."
 
 (defun blitzmax-mode--previous-line-of-code ()
   "Move to the previous line of code, skipping over any comments or whitespace."
-  (if (not (bobp))
-      (forward-line -1))
+  (unless (bobp)
+    (forward-line -1))
   (while (and (not (bobp))
               (or (looking-at blitzmax-mode-blank-regexp)
                   (looking-at blitzmax-mode-comment-regexp)))
@@ -526,12 +538,11 @@ Returns `t` if in code, `nil` if in a comment or string."
 ;; --------------------------------------------------
 ;; -- Quickrun Support
 
-(defun blitzmax-mode--setup-quickrun ()
-  "Set up 'blitzmax-mode' with quickrun if not already registered."
-  (when blitzmax-mode-use-quickrun-p
-    (blitzmax-mode--register-quickrun-support)))
+(declare-function quickrun-add-command "quickrun")
+(defvar quickrun-file-alist)
 
-(defun blitzmax-mode--register-quickrun-support ()
+;;;###autoload
+(defun blitzmax-mode-quickrun-integration ()
   "Register BlitzMax with quickrun."
 
   ;; Will compile the current buffer in threaded + debug mode and then run it.
@@ -549,28 +560,15 @@ Returns `t` if in code, `nil` if in a comment or string."
   ;; Add `.bmx` to list of quickrun file types.
   (add-to-list 'quickrun-file-alist '("\\.bmx$" . "blitzmax")))
 
-
-;; --------------------------------------------------
-;; -- Setup Hooks
-
-;;;###autoload
-(add-to-list 'auto-mode-alist '("\\.bmx\\'" . blitzmax-mode))
-
-(with-eval-after-load 'quickrun
-  (blitzmax-mode--setup-quickrun))
-
-
 ;; --------------------------------------------------
 ;; -- Main Mode
 
 ;;;###autoload
-(define-derived-mode blitzmax-mode fundamental-mode
-  "BlitzMax mode"
+(define-derived-mode blitzmax-mode prog-mode "BlitzMax"
   "Major mode for editing BlitzMax source files."
 
-  ;; Fontify buffer if enabled.
-  (when blitzmax-mode-fontify-p
-    (blitzmax-mode--fontify-buffer))
+  ;; Fontify buffer.
+  (blitzmax-mode--fontify-buffer)
 
   ;; Enable smart indentation.
   (when blitzmax-mode-smart-indent-p
@@ -592,10 +590,12 @@ Returns `t` if in code, `nil` if in a comment or string."
   (modify-syntax-entry ?~ "\\" blitzmax-mode-syntax-table)
 
   ;; Additional syntax support.
-  (setq syntax-propertize-function blitzmax-mode--syntax-propertize-function)
+  (setq syntax-propertize-function blitzmax-mode--syntax-propertize-function))
 
-  ;; Run hooks.
-  (run-hooks 'blitzmax-mode-hook))
+;;;###autoload
+(add-to-list 'auto-mode-alist '("\\.bmx\\'" . blitzmax-mode))
+;;;###autoload
+(add-to-list 'interpreter-mode-alist '("bmx" . blitzmax-mode))
 
 (provide 'blitzmax-mode)
 ;;; blitzmax-mode.el ends here
