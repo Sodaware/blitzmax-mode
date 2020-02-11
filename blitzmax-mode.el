@@ -62,8 +62,8 @@
 
 (defvar blitzmax-mode-abbrev-table nil)
 (defvar blitzmax-mode-hook ())
-(defvar blitzmax-mode--quickrun-registered-p nil)
 (defvar blitzmax-mode-font-lock-keywords)
+(defvar quickrun-file-alist)
 
 
 ;; --------------------------------------------------
@@ -524,25 +524,39 @@ Returns `t` if in code, `nil` if in a comment or string."
 ;; --------------------------------------------------
 ;; -- Quickrun Support
 
+(defun blitzmax-mode--setup-quickrun ()
+  "Set up blitzmax-mode with quickrun if not already registered."
+  (when blitzmax-mode-use-quickrun-p
+    (blitzmax-mode--register-quickrun-support)))
+
 (defun blitzmax-mode--register-quickrun-support ()
   "Register BlitzMax with quickrun."
 
-  ;; Only activate if quickrun is loaded.
-  (when (fboundp 'quickrun-add-command)
-    ;; Add blitzmax to quickrun.
-    ;; Will compile the current buffer in threaded + debug mode and then run it.
-    (quickrun-add-command
-     "blitzmax"
-     `((:command  . ,blitzmax-mode-compiler-pathname)
-       (:cmdopt   . "makeapp -h -d -o %e")
-       (:exec     . ("%c %o %s"
-                     "%e %a"))
-       (:tempfile . nil)
-       (:remove   . ("%e")))
-     :mode 'blitxmax-mode)
+  ;; Will compile the current buffer in threaded + debug mode and then run it.
+  (quickrun-add-command
+    "blitzmax"
+    `((:command  . ,blitzmax-mode-compiler-pathname)
+      (:cmdopt   . "makeapp -h -d -o %e")
+      (:exec     . ("%c %o %s"
+                    "%e %a"))
+      (:tempfile . nil)
+      (:remove   . ("%e")))
+    :mode 'blitxmax-mode
+    :default "blitzmax")
 
-    ;; Add `.bmx` to list of quickrun file types.
-    (add-to-list 'quickrun-file-alist '("\\.bmx$" . "blitzmax"))))
+  ;; Add `.bmx` to list of quickrun file types.
+  (add-to-list 'quickrun-file-alist '("\\.bmx$" . "blitzmax")))
+
+
+;; --------------------------------------------------
+;; -- Setup Hooks
+
+;;;###autoload
+(add-to-list 'auto-mode-alist '("\\.bmx\\'" . blitzmax-mode))
+
+;; Enable quickrun support if user has enabled and not already activated.
+(with-eval-after-load 'quickrun
+  (blitzmax-mode--setup-quickrun))
 
 
 ;; --------------------------------------------------
@@ -579,16 +593,8 @@ Returns `t` if in code, `nil` if in a comment or string."
   ;; Additional syntax support.
   (setq syntax-propertize-function blitzmax-mode--syntax-propertize-function)
 
-  ;; Enable quickrun support if user has enabled and not already activated.
-  (when (and blitzmax-mode-use-quickrun-p
-             (not blitzmax-mode--quickrun-registered-p))
-    (blitzmax-mode--register-quickrun-support))
-
   ;; Run hooks.
   (run-hooks 'blitzmax-mode-hook))
-
-;;;###autoload
-(add-to-list 'auto-mode-alist '("\\.bmx\\'" . blitzmax-mode))
 
 (provide 'blitzmax-mode)
 ;;; blitzmax-mode.el ends here
