@@ -66,6 +66,10 @@
   :type 'string
   :group 'blitzmax)
 
+(defcustom blitzmax-mode-hook nil
+  "Hook run when entering blitzmax mode."
+  :type 'hook
+  :group 'hook)
 
 ;;; Code:
 
@@ -73,7 +77,6 @@
 ;; -- Local Variables
 
 (defvar blitzmax-mode-abbrev-table nil)
-(defvar blitzmax-mode-hook ())
 (defvar blitzmax-mode-font-lock-keywords)
 
 
