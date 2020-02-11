@@ -523,6 +523,8 @@ Returns `t` if in code, `nil` if in a comment or string."
 ;; --------------------------------------------------
 ;; -- Quickrun Support
 
+(declare-function quickrun-add-command "quickrun")
+
 ;;;###autoload
 (defun blitzmax-mode-quickrun-integration ()
   "Register BlitzMax with quickrun."
