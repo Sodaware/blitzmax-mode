@@ -6,7 +6,7 @@
 ;; Keywords: languages blitzmax
 ;; Author: Phil Newton
 ;; URL: https://www.sodaware.net/dev/tools/blitzmax-mode/
-;; Package-Requires: ((emacs "24.4"))
+;; Package-Requires: ((emacs "24.1"))
 
 ;; This file is NOT part of GNU Emacs.
 
