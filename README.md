@@ -4,7 +4,7 @@
 ![GitHub release](https://img.shields.io/github/release/Sodaware/blitzmax-mode.svg)
 
 This project adds a new major mode to GNU Emacs for editing BlitzMax source
-files. It supports keyword highlighting, keyword capitalization and automatic
+files. It supports keyword highlighting, keyword capitalization, and automatic
 indentation.
 
 ![blitzmax-mode in action](https://www.sodaware.net/assets/images/projects/blitzmax-mode/blitzmax-mode-screenshot.png)
@@ -33,9 +33,6 @@ will automatically switch to `blitzmax-mode` when enabled.
 * `blitzmax-mode-indent` - The number of spaces to indent by. By default
   **blitzmax-mode** indents by 4 spaces which is converted to a single tab.
 
-* `blitzmax-mode-fontify-p` - Disable syntax highlighting by setting this to
-  `nil`. `t` by default.
-
 * `blitzmax-mode-capitalize-keywords-p` - Disable automatic capitalization of
   keywords by setting this to `nil`. `t` by default.
 
@@ -45,19 +42,18 @@ will automatically switch to `blitzmax-mode` when enabled.
 * `blitzmax-mode-compiler-pathname` - Full pathname to the BlitzMax compiler
   `bmk`. "bmk" by default.
 
-* `blitzmax-mode-use-quickrun-p` - Enable
-  [quickrun](https://github.com/syohex/emacs-quickrun/) support by setting this
-  to `t`. `t` by default.
-
 
 ## Running the current buffer using quickrun
 
 [quickrun.el](https://github.com/syohex/emacs-quickrun/) is an extension for
 compiling and executing the current buffer.
 
-If `blitzmax-mode-use-quickrun-p` is set to `t`, quickrun support will be
-activated when switching to `blitzmax-mode`. Calling `M-x quickrun` will compile
-the current buffer in debug + threaded mode and execute the resulting file.
+To enable quickrun support, add the following to your Emacs initialization file:
+
+```elisp
+(with-eval-after-load 'quickrun
+  (blitzmax-mode-quickrun-integration))
+```
 
 To bind quickrun to a key press (`C-c C-c` in this example), add the following
 to `init.el` (or wherever your Emacs config resides):
@@ -67,8 +63,9 @@ to `init.el` (or wherever your Emacs config resides):
   '(define-key blitzmax-mode-map (kbd "C-c C-c") 'quickrun))
 ```
 
-Quickrun will delete the compiled executable once the process has finished
-running.
+When called, quickrun will compile and execute the current buffer with debug and
+threading enabled. Once the process has finished running the executable file
+will be deleted.
 
 
 ## Compiling Projects with Projectile

@@ -34,7 +34,8 @@
 ;; This is a major mode for editing BlitzMax files.  It supports syntax
 ;; highlighting, keyword capitalization, and automatic indentation.
 
-;; If you want to use quickrun integration, add below code to your init.el
+;; If you want to use quickrun integration, add the following code to your Emacs
+;; initialization file.
 
 ;;   (with-eval-after-load 'quickrun
 ;;     (blitzmax-mode-quickrun-integration))
@@ -594,6 +595,7 @@ Returns `t` if in code, `nil` if in a comment or string."
 
 ;;;###autoload
 (add-to-list 'auto-mode-alist '("\\.bmx\\'" . blitzmax-mode))
+
 ;;;###autoload
 (add-to-list 'interpreter-mode-alist '("bmx" . blitzmax-mode))
 
