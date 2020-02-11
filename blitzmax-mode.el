@@ -527,7 +527,7 @@ Returns `t` if in code, `nil` if in a comment or string."
 ;; -- Quickrun Support
 
 (defun blitzmax-mode--setup-quickrun ()
-  "Set up blitzmax-mode with quickrun if not already registered."
+  "Set up 'blitzmax-mode' with quickrun if not already registered."
   (when blitzmax-mode-use-quickrun-p
     (blitzmax-mode--register-quickrun-support)))
 
