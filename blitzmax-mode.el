@@ -41,17 +41,30 @@
 
 ;;; Configuration:
 
-(defvar blitzmax-mode-indent 4
-  "Default indentation per nesting level.")
+(defgroup blitzmax nil
+  "Major mode for editing BlitzMax source files."
+  :group 'languages
+  :prefix "blitzmax-")
 
-(defvar blitzmax-mode-smart-indent-p t
-  "Whether to use smart-indentation.")
+(defcustom blitzmax-mode-indent 4
+  "Default indentation per nesting level."
+  :type 'integer
+  :group 'blitzmax)
 
-(defvar blitzmax-mode-capitalize-keywords-p t
-  "Whether to automatically capitalize keywords.")
+(defcustom blitzmax-mode-smart-indent-p t
+  "Whether to use smart-indentation."
+  :type 'boolean
+  :group 'blitzmax)
 
-(defvar blitzmax-mode-compiler-pathname "bmk"
-  "The full pathname of the BlitzMax compiler (e.g. /usr/bin/bmk).")
+(defcustom blitzmax-mode-capitalize-keywords-p t
+  "Whether to automatically capitalize keywords."
+  :type 'boolean
+  :group 'blitzmax)
+
+(defcustom blitzmax-mode-compiler-pathname "bmk"
+  "The full pathname of the BlitzMax compiler (e.g. /usr/bin/bmk)."
+  :type 'string
+  :group 'blitzmax)
 
 
 ;;; Code:
