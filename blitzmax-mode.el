@@ -47,9 +47,6 @@
 (defvar blitzmax-mode-smart-indent-p t
   "Whether to use smart-indentation.")
 
-(defvar blitzmax-mode-fontify-p t
-  "Whether to fontify BlitzMax buffers.")
-
 (defvar blitzmax-mode-capitalize-keywords-p t
   "Whether to automatically capitalize keywords.")
 
@@ -561,9 +558,8 @@ Returns `t` if in code, `nil` if in a comment or string."
   "BlitzMax mode"
   "Major mode for editing BlitzMax source files."
 
-  ;; Fontify buffer if enabled.
-  (when blitzmax-mode-fontify-p
-    (blitzmax-mode--fontify-buffer))
+  ;; Fontify buffer.
+  (blitzmax-mode--fontify-buffer)
 
   ;; Enable smart indentation.
   (when blitzmax-mode-smart-indent-p
