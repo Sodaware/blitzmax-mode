@@ -1,7 +1,11 @@
-# blitzmax-mode - BlitzMax Mode for GNU Emacs
+# blitzmax-mode - BlitzMax editing for GNU Emacs
+
+![GPLv2](https://img.shields.io/github/license/Sodaware/blitzmax-mode.svg)
+![GitHub release](https://img.shields.io/github/release/Sodaware/blitzmax-mode.svg)
 
 This project adds a new major mode to GNU Emacs for editing BlitzMax source
-files. It supports keyword highlighting and automatic indentation.
+files. It supports keyword highlighting, keyword capitalization and automatic
+indentation.
 
 ![blitzmax-mode in action](https://www.sodaware.net/assets/images/projects/blitzmax-mode/blitzmax-mode-screenshot.png)
 
