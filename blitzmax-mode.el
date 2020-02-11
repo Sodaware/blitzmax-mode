@@ -581,10 +581,7 @@ Returns `t` if in code, `nil` if in a comment or string."
   (modify-syntax-entry ?~ "\\" blitzmax-mode-syntax-table)
 
   ;; Additional syntax support.
-  (setq syntax-propertize-function blitzmax-mode--syntax-propertize-function)
-
-  ;; Run hooks.
-  (run-hooks 'blitzmax-mode-hook))
+  (setq syntax-propertize-function blitzmax-mode--syntax-propertize-function))
 
 (provide 'blitzmax-mode)
 ;;; blitzmax-mode.el ends here
