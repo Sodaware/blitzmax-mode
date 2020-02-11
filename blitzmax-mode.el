@@ -554,8 +554,7 @@ Returns `t` if in code, `nil` if in a comment or string."
 ;; -- Main Mode
 
 ;;;###autoload
-(define-derived-mode blitzmax-mode prog-mode
-  "BlitzMax mode"
+(define-derived-mode blitzmax-mode prog-mode "BlitzMax"
   "Major mode for editing BlitzMax source files."
 
   ;; Fontify buffer.
