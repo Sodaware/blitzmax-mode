@@ -245,8 +245,8 @@ a lowercase word, the second is the correctly-capitalized word."
   (let ((all-keywords (append blitzmax-mode-all-keywords
                               blitzmax-mode-type-keywords
                               blitzmax-mode-constant-keywords)))
-    (mapcar #'(lambda (word)
-                (list (downcase word) word))
+    (mapcar (lambda (word)
+              (list (downcase word) word))
             all-keywords)))
 
 (defun blitzmax-mode--create-abbrev-table ()
