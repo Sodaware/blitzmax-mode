@@ -2,6 +2,8 @@
 
 ![GPLv2](https://img.shields.io/github/license/Sodaware/blitzmax-mode.svg)
 ![GitHub release](https://img.shields.io/github/release/Sodaware/blitzmax-mode.svg)
+[![MELPA](http://melpa.org/packages/blitzmax-mode-badge.svg)](http://melpa.org/#/blitzmax-mode)
+[![MELPA Stable](http://stable.melpa.org/packages/blitzmax-mode-badge.svg)](http://stable.melpa.org/#/blitzmax-mode)
 
 This project adds a new major mode to GNU Emacs for editing BlitzMax source
 files. It supports keyword highlighting, keyword capitalization, and automatic
