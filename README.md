@@ -32,8 +32,16 @@ Once everything is loaded, blitzmax-mode can be enabled for a buffer by running
 `M-x blitzmax-mode`. The mode also associates itself with `.bmx` files, so they
 will automatically switch to `blitzmax-mode` when enabled.
 
+## Configuration via use-package
 
-## Configuration
+The following configuration code will enable `blitzmax-mode` for `.bmx` files.
+
+```elisp
+(use-package blitzmax-mode
+  :mode "\\.bmx\\'"
+```
+
+## Configuration Options
 
 **blitzmax-mode** provides the following configuration options:
 
@@ -68,6 +76,17 @@ to `init.el` (or wherever your Emacs config resides):
 ```elisp
 (eval-after-load "blitzmax-mode"
   '(define-key blitzmax-mode-map (kbd "C-c C-c") 'quickrun))
+```
+
+To add quickrun support to `blitzmax-mode` via `use-package`, use the following:
+
+```elisp
+(use-package blitzmax-mode
+  :mode "\\.bmx\\'"
+  :bind
+  (("C-c C-c" . quickrun))
+  :config
+  (blitzmax-mode-quickrun-integration))
 ```
 
 When called, quickrun will compile and execute the current buffer with debug and
