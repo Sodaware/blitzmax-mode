@@ -14,6 +14,11 @@ indentation.
 
 ## Installation
 
+It is recommended to install this package directly from
+[MELPA](http://melpa.org/) or via
+[el-get](http://www.emacswiki.org/emacs/el-get). The package is listed in Melpa
+as `blitzmax-mode`.
+
 To manually install this extension:
 
   1. Download the source code and put it somewhere Emacs can find it (probably
