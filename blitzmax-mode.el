@@ -586,6 +586,13 @@ Returns `t` if in code, `nil` if in a comment or string."
   (modify-syntax-entry ?\' "< b" blitzmax-mode-syntax-table)
   (modify-syntax-entry ?\n "> b" blitzmax-mode-syntax-table)
 
+  ;; Configure comment syntax for comment-line/comment-region.
+  (setq-local comment-start      "' ")
+  (setq-local comment-end        "")
+  (setq-local comment-start-skip "'[ \t]*")
+  (setq-local comment-column     0)
+  (setq-local comment-use-syntax t)
+
   ;; Modify syntax to not treat \ as an escape char. Treat ~ as one instead.
   (modify-syntax-entry ?\\ "." blitzmax-mode-syntax-table)
   (modify-syntax-entry ?~ "\\" blitzmax-mode-syntax-table)
