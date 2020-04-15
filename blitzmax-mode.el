@@ -36,11 +36,11 @@
 
 ;; blitzmax-mode provides the following configuration options:
 
-;; blitzmax-mode-indent ::
+;; blitzmax-mode-indent
 ;;   The number of spaces to indent by.  By default blitzmax-mode indents by 4
 ;;   spaces which is converted to a single tab.
 
-;; blitzmax-mode-capitalize-keywords-p ::
+;; blitzmax-mode-capitalize-keywords-p
 ;;   Disable automatic capitalization of keywords by setting this to =nil=.  =t=
 ;;   by default.
 
