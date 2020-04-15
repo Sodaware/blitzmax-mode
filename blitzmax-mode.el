@@ -82,7 +82,7 @@
 
 
 ;; --------------------------------------------------
-;; -- Regex for highlighting
+;; -- Regex for indentation
 
 (defconst blitzmax-mode-type-start-regexp
   (concat
@@ -560,6 +560,7 @@ Returns `t` if in code, `nil` if in a comment or string."
 
   ;; Add `.bmx` to list of quickrun file types.
   (add-to-list 'quickrun-file-alist '("\\.bmx$" . "blitzmax")))
+
 
 ;; --------------------------------------------------
 ;; -- Main Mode

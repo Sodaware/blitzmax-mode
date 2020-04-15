@@ -29,10 +29,10 @@
    ;; First line is a comment.
    (should (equal 'font-lock-comment-face (get-text-property 1 'face)))
 
-   ;; Second line is highlighted
+   ;; Second line is highlighted.
    (should (equal 'font-lock-keyword-face (get-text-property 21 'face)))
 
-   ;; Third line is a comment
+   ;; Third line is a comment.
    (should (equal 'font-lock-comment-face (get-text-property 51 'face)))))
 
 (ert-deftest blitzmax-mode-font-locking-test/test-multi-line-comments ()
