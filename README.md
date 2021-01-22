@@ -2,8 +2,8 @@
 
 ![GPLv2](https://img.shields.io/github/license/Sodaware/blitzmax-mode.svg)
 ![GitHub release](https://img.shields.io/github/release/Sodaware/blitzmax-mode.svg)
-[![MELPA](http://melpa.org/packages/blitzmax-mode-badge.svg)](http://melpa.org/#/blitzmax-mode)
-[![MELPA Stable](http://stable.melpa.org/packages/blitzmax-mode-badge.svg)](http://stable.melpa.org/#/blitzmax-mode)
+[![MELPA](https://melpa.org/packages/blitzmax-mode-badge.svg)](https://melpa.org/#/blitzmax-mode)
+[![MELPA Stable](https://stable.melpa.org/packages/blitzmax-mode-badge.svg)](https://stable.melpa.org/#/blitzmax-mode)
 
 This project adds a new major mode to GNU Emacs for editing BlitzMax source
 files. It supports keyword highlighting, keyword capitalization, and automatic
@@ -15,8 +15,8 @@ indentation.
 ## Installation
 
 It is recommended to install this package directly from
-[MELPA](http://melpa.org/) or via
-[el-get](http://www.emacswiki.org/emacs/el-get). The package is listed in Melpa
+[MELPA](https://melpa.org/) or via
+[el-get](https://www.emacswiki.org/emacs/el-get). The package is listed in Melpa
 as `blitzmax-mode`.
 
 To manually install this extension:
