@@ -113,7 +113,7 @@
 
 
 ;; --------------------------------------------------
-;; -- Abstract Function/Nethod tests
+;; -- Abstract Function/Method tests
 
 (ert-deftest blitzmax-mode-pair-insertion-test/does-not-insert-end-with-abstract-function ()
   (with-blitzmax-mode-text-test
@@ -130,5 +130,70 @@
    (end-of-line)
    (blitzmax-mode-newline-and-indent)
    (should (string= "Method Test() Abstract\n" (buffer-string)))))
+
+
+;; --------------------------------------------------
+;; -- For/Next
+
+;; TODO: These are weird because writing For on the first line of a file indents it incorrectly.
+
+(ert-deftest blitzmax-mode-pair-insertion-test/inserts-next-with-for-statement ()
+  (with-blitzmax-mode-text-test
+   ("")
+   (insert "For i = 1 to 10")
+   (blitzmax-mode-newline-and-indent)
+   (should (string= "\tFor i = 1 to 10\n\t\t\nNext" (buffer-string)))))
+
+
+;; --------------------------------------------------
+;; -- While/Wend
+
+;; TODO: These are weird because writing For on the first line of a file indents it incorrectly.
+
+(ert-deftest blitzmax-mode-pair-insertion-test/inserts-wend-with-while-statement ()
+  (with-blitzmax-mode-text-test
+   ("")
+   (insert "While True")
+   (blitzmax-mode-newline-and-indent)
+   (should (string= "\tWhile True\n\t\t\nWend" (buffer-string)))))
+
+
+;; --------------------------------------------------
+;; -- While/Wend
+
+;; TODO: These are weird because writing For on the first line of a file indents it incorrectly.
+
+(ert-deftest blitzmax-mode-pair-insertion-test/inserts-wend-with-while-statement ()
+  (with-blitzmax-mode-text-test
+   ("")
+   (insert "While True")
+   (blitzmax-mode-newline-and-indent)
+   (should (string= "\tWhile True\n\t\t\nWend" (buffer-string)))))
+
+
+;; --------------------------------------------------
+;; -- Try/End Try
+
+;; TODO: These are weird because writing For on the first line of a file indents it incorrectly.
+
+(ert-deftest blitzmax-mode-pair-insertion-test/inserts-end-try-with-try-statement ()
+  (with-blitzmax-mode-text-test
+   ("")
+   (insert "Try")
+   (blitzmax-mode-newline-and-indent)
+   (should (string= "\tTry\n\t\t\nEnd Try" (buffer-string)))))
+
+
+;; --------------------------------------------------
+;; -- Select/End Select
+
+;; TODO: These are weird because writing For on the first line of a file indents it incorrectly.
+
+(ert-deftest blitzmax-mode-pair-insertion-test/inserts-end-select-with-select-statement ()
+  (with-blitzmax-mode-text-test
+   ("")
+   (insert "Select")
+   (blitzmax-mode-newline-and-indent)
+   (should (string= "\tSelect\n\t\t\nEnd Select" (buffer-string)))))
 
 ;;; blitzmax-mode-pair-insertion-test.el ends here

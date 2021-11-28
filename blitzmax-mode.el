@@ -656,6 +656,27 @@ checks if that pair is unclosed (via CLOSE-REGEXP)."
                 (not (blitzmax-mode--abstract-defun-p)))
            (end-of-line)
            (insert "\nEnd Method")
+           (indent-according-to-mode))
+
+          ;; Nested structures that don't require any close checks.
+          ((looking-at blitzmax-mode-for-regexp)
+           (end-of-line)
+           (insert "\nNext")
+           (indent-according-to-mode))
+
+          ((looking-at blitzmax-mode-while-regexp)
+           (end-of-line)
+           (insert "\nWend")
+           (indent-according-to-mode))
+
+          ((looking-at blitzmax-mode-try-regexp)
+           (end-of-line)
+           (insert "\nEnd Try")
+           (indent-according-to-mode))
+
+          ((looking-at blitzmax-mode-select-regexp)
+           (end-of-line)
+           (insert "\nEnd Select")
            (indent-according-to-mode)))))
 
 
