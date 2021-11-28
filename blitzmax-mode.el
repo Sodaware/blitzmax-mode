@@ -591,7 +591,8 @@ Returns `t` if in code, `nil` if in a comment or string."
   "Insert a newline, indent it, and complete any pairs if needed."
   (interactive)
   ;; Automatically complete any pairs.
-  (when blitzmax-mode-complete-pairs-p
+  (when (and blitzmax-mode-complete-pairs-p
+             (eolp))
     (blitzmax-mode-insert-matching-pair))
 
   ;; Insert a newline and indent any code.

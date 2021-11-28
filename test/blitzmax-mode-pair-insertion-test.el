@@ -7,20 +7,33 @@
 ;;; Code:
 
 ;; --------------------------------------------------
+;; -- General Behaviour
+
+(ert-deftest blitzmax-mode-pair-insertion-test/does-not-complete-when-at-start-of-line ()
+  (with-blitzmax-mode-text-test
+   ("")
+   (insert "Extern")
+   (beginning-of-line)
+   (blitzmax-mode-newline-and-indent)
+   (should (string= "\nExtern" (buffer-string)))))
+
+
+;; --------------------------------------------------
 ;; -- Extern/End Extern insertion
 
 (ert-deftest blitzmax-mode-pair-insertion-test/inserts-end-extern-for-new-extern ()
   (with-blitzmax-mode-text-test
    ("")
    (insert "Extern")
+   (end-of-line)
    (blitzmax-mode-newline-and-indent)
    (should (string= "Extern\n\t\nEnd Extern" (buffer-string)))))
 
 (ert-deftest blitzmax-mode-pair-insertion-test/inserts-end-with-closed-extern-afterwards ()
   (with-blitzmax-mode-text-test
    ("\nExtern\n\t\nEnd Extern")
-
    (insert "Extern")
+   (end-of-line)
    (blitzmax-mode-newline-and-indent)
    (should (string= "Extern\n\t\nEnd Extern\nExtern\n\t\nEnd Extern" (buffer-string)))))
 
@@ -39,14 +52,15 @@
   (with-blitzmax-mode-text-test
    ("")
    (insert "Type Test")
+   (end-of-line)
    (blitzmax-mode-newline-and-indent)
    (should (string= "Type Test\n\t\nEnd Type" (buffer-string)))))
 
 (ert-deftest blitzmax-mode-pair-insertion-test/inserts-end-with-closed-type-afterwards ()
   (with-blitzmax-mode-text-test
    ("\nType First\n\t\nEnd Type")
-
    (insert "Type Test")
+   (end-of-line)
    (blitzmax-mode-newline-and-indent)
    (should (string= "Type Test\n\t\nEnd Type\nType First\n\t\nEnd Type" (buffer-string)))))
 
@@ -66,14 +80,15 @@
   (with-blitzmax-mode-text-test
    ("")
    (insert "Function Test")
+   (end-of-line)
    (blitzmax-mode-newline-and-indent)
    (should (string= "\tFunction Test\n\t\t\nEnd Function" (buffer-string)))))
 
 (ert-deftest blitzmax-mode-pair-insertion-test/inserts-end-with-closed-function-afterwards ()
   (with-blitzmax-mode-text-test
    ("\nFunction First\n\t\nEnd Function")
-
    (insert "Function Test")
+   (end-of-line)
    (blitzmax-mode-newline-and-indent)
    (should (string= "\tFunction Test\n\t\t\nEnd Function\nFunction First\n\t\nEnd Function" (buffer-string)))))
 
@@ -93,14 +108,15 @@
   (with-blitzmax-mode-text-test
    ("")
    (insert "Method Test")
+   (end-of-line)
    (blitzmax-mode-newline-and-indent)
    (should (string= "\tMethod Test\n\t\t\nEnd Method" (buffer-string)))))
 
 (ert-deftest blitzmax-mode-pair-insertion-test/inserts-end-with-closed-method-afterwards ()
   (with-blitzmax-mode-text-test
    ("\nMethod First\n\t\nEnd Method")
-
    (insert "Method Test")
+   (end-of-line)
    (blitzmax-mode-newline-and-indent)
    (should (string= "\tMethod Test\n\t\t\nEnd Method\nMethod First\n\t\nEnd Method" (buffer-string)))))
 
@@ -141,6 +157,7 @@
   (with-blitzmax-mode-text-test
    ("")
    (insert "For i = 1 to 10")
+   (end-of-line)
    (blitzmax-mode-newline-and-indent)
    (should (string= "\tFor i = 1 to 10\n\t\t\nNext" (buffer-string)))))
 
@@ -154,6 +171,7 @@
   (with-blitzmax-mode-text-test
    ("")
    (insert "While True")
+   (end-of-line)
    (blitzmax-mode-newline-and-indent)
    (should (string= "\tWhile True\n\t\t\nWend" (buffer-string)))))
 
@@ -167,6 +185,7 @@
   (with-blitzmax-mode-text-test
    ("")
    (insert "While True")
+   (end-of-line)
    (blitzmax-mode-newline-and-indent)
    (should (string= "\tWhile True\n\t\t\nWend" (buffer-string)))))
 
@@ -180,6 +199,7 @@
   (with-blitzmax-mode-text-test
    ("")
    (insert "Try")
+   (end-of-line)
    (blitzmax-mode-newline-and-indent)
    (should (string= "\tTry\n\t\t\nEnd Try" (buffer-string)))))
 
@@ -193,6 +213,7 @@
   (with-blitzmax-mode-text-test
    ("")
    (insert "Select")
+   (end-of-line)
    (blitzmax-mode-newline-and-indent)
    (should (string= "\tSelect\n\t\t\nEnd Select" (buffer-string)))))
 
