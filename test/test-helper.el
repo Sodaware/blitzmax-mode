@@ -96,6 +96,26 @@ run with specific customizations set."
      (let ((case-fold-search nil))
        ,@body)))
 
+(cl-defmacro with-blitzmax-mode-text-test ((contents &key indent custom) &rest body)
+  "Set up environment for testing `blitzmax-mode' pair insertion."
+  (declare (indent 1))
+  `(with-temp-buffer
+     (blitzmax-mode)
+     (let ((blitzmax-mode-complete-pairs-p t))
+       (insert ,contents)
+
+       ,(if (fboundp 'font-lock-ensure)
+            '(font-lock-ensure)
+            '(with-no-warnings (font-lock-fontify-buffer)))
+
+       ,(if indent
+            '(let ((inhibit-message t))
+               (indent-region (point-min) (point-max))))
+
+       (goto-char (point-min))
+       (let ((case-fold-search nil))
+         ,@body))))
+
 (defun fixture (file)
   "Load FILE from the fixtures directory and return as a string."
   (with-temp-buffer

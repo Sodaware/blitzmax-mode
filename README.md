@@ -11,6 +11,11 @@ indentation.
 
 ![blitzmax-mode in action](https://www.sodaware.net/assets/images/projects/blitzmax-mode/blitzmax-mode-screenshot.png)
 
+There is also some basic support for keyword pair insertion; for example, typing
+`Function test()` and hitting `<enter>` will automatically insert `End Function`
+and place the cursor in the correct position. This feature can be enabled by
+setting `blitzmax-mode-complete-pairs-p` to `t`.
+
 
 ## Installation
 
@@ -53,6 +58,10 @@ The following configuration code will enable `blitzmax-mode` for `.bmx` files.
 
 * `blitzmax-mode-smart-indent-p` - Disable smart indentation by setting this to
   `nil`. `t` by default.
+
+* `blitzmax-mode-complete-pairs-p` - Enable automatic insertion of matching
+   keyword pairs - such as "End Method" - by setting this to `t`.  `nil` by
+   default.
 
 * `blitzmax-mode-compiler-pathname` - Full pathname to the BlitzMax compiler
   `bmk`. "bmk" by default.
@@ -119,12 +128,12 @@ The current project can then be compiled by running `projectile-compile-project`
 * Automatic indentation
 * Capitalizes keywords automatically
 * Quickrun support
+* Auto-completion
 
 
 ## Planned Features
 
 * Compile current buffer
-* Auto-completion
 * Integration with bmk
 * Integration with blam
 

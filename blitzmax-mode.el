@@ -47,6 +47,10 @@
 ;; blitzmax-mode-smart-indent-p
 ;;   Disable smart indentation by setting this to =nil=.  =t= by default.
 
+;; blitzmax-mode-complete-pairs-p
+;;   Enable automatic insertion of matching keyword pairs - such as "End Method"
+;;   - by setting this to =t=.  =nil= by default.
+
 ;; blitzmax-mode-compiler-pathname
 ;;   Full pathname to the BlitzMax compiler bmk.  "bmk" by default.
 
@@ -76,6 +80,11 @@
   :type 'boolean
   :group 'blitzmax)
 
+(defcustom blitzmax-mode-complete-pairs-p nil
+  "Whether to auto-complete pairs like `Method...End Method'."
+  :type 'boolean
+  :group 'blitzmax)
+
 (defcustom blitzmax-mode-capitalize-keywords-p t
   "Whether to automatically capitalize keywords."
   :type 'boolean
@@ -100,7 +109,7 @@
 
 
 ;; --------------------------------------------------
-;; -- Regex for indentation
+;; -- Regex for indentation & completion
 
 (defconst blitzmax-mode-type-start-regexp
   (concat
@@ -117,6 +126,22 @@
 
 (defconst blitzmax-mode-defun-end-regexp
   "^[ \t]*[Ee]nd[ \t]*\\([Mm]ethod\\|[Ff]unction\\)")
+
+(defconst blitzmax-mode-function-start-regexp
+  (concat
+   "^[\t ]*[Ff]unction"
+   "[ \t ]+_?\\(\\w+\\)[ \t ]*(?"))
+
+(defconst blitzmax-mode-function-end-regexp
+  "^[ \t]*[Ee]nd[ \t]*[Ff]unction")
+
+(defconst blitzmax-mode-method-start-regexp
+  (concat
+   "^[\t ]*[Mm]ethod"
+   "[ \t ]+_?\\(\\w+\\)[ \t ]*(?"))
+
+(defconst blitzmax-mode-method-end-regexp
+  "^[ \t]*[Ee]nd[ \t]*[Mm]ethod")
 
 (defconst blitzmax-mode-abstract-defun-regexp
   (concat
@@ -354,6 +379,15 @@ Returns `t` if in code, `nil` if in a comment or string."
                   (looking-at blitzmax-mode-comment-regexp)))
     (forward-line -1)))
 
+(defun blitzmax-mode--next-line-of-code ()
+  "Move to the next line of code, skipping over any comments or whitespace."
+  (unless (eobp)
+    (forward-line 1))
+  (while (and (not (eobp))
+              (or (looking-at blitzmax-mode-blank-regexp)
+                  (looking-at blitzmax-mode-comment-regexp)))
+    (forward-line 1)))
+
 (defun blitzmax-mode--find-original-statement ()
   "Move to original statement if current line is part of a continuation."
   (let ((here (point)))
@@ -553,6 +587,69 @@ Returns `t` if in code, `nil` if in a comment or string."
   (interactive)
   (blitzmax-mode--indent-to-column (blitzmax-mode--calculate-indent)))
 
+(defun blitzmax-mode-newline-and-indent ()
+  "Insert a newline, indent it, and complete any pairs if needed."
+  (interactive)
+  ;; Automatically complete any pairs.
+  (when blitzmax-mode-complete-pairs-p
+    (blitzmax-mode-insert-matching-pair))
+
+  ;; Insert a newline and indent any code.
+  (newline-and-indent))
+
+
+;; --------------------------------------------------
+;; -- Pair completion
+
+(defun blitzmax-mode--construct-unclosed-p (open-regexp close-regexp)
+  "Search for instances of OPEN-REGEXP before CLOSE-REGEXP.
+
+This is used for constructs that cannot be nested, such as types or methods.  It
+checks if there is an instance of OPEN-REGEXP before CLOSE-REGEXP.  If there
+is, it means the construct is unclosed and can have a pair inserted."
+  (save-excursion
+    ;; TODO: This is pretty darn ugly.
+    (let ((openp   nil)
+          (closedp nil))
+      (while (and (not openp) (not closedp) (not (eobp)))
+        (blitzmax-mode--next-line-of-code)
+        (setq openp   (looking-at open-regexp))
+        (setq closedp (looking-at close-regexp)))
+      (or openp (eobp)))))
+
+(defun blitzmax-mode--can-complete-pair (open-regexp close-regexp)
+  "Check if pair that can be completed.
+
+Checks if point is at the start of the pair (declared via OPEN-REGEXP) and also
+checks if that pair is unclosed (via CLOSE-REGEXP)."
+  (and (looking-at open-regexp)
+       (blitzmax-mode--construct-unclosed-p open-regexp close-regexp)))
+
+(defun blitzmax-mode-insert-matching-pair ()
+  "Complete a pair if the current line is the start."
+  (interactive)
+  ;; TODO: This should only run when at the end of the current line, not the start.
+  (save-excursion
+    (beginning-of-line)
+
+    ;; TODO: This can be cleaned up considerably.
+    (cond ((blitzmax-mode--can-complete-pair blitzmax-mode-type-start-regexp
+                                             blitzmax-mode-type-end-regexp)
+           (end-of-line)
+           (insert "\nEnd Type"))
+
+          ((blitzmax-mode--can-complete-pair blitzmax-mode-function-start-regexp
+                                             blitzmax-mode-function-end-regexp)
+           (end-of-line)
+           (insert "\nEnd Function")
+           (indent-according-to-mode))
+
+          ((blitzmax-mode--can-complete-pair blitzmax-mode-method-start-regexp
+                                             blitzmax-mode-method-end-regexp)
+           (end-of-line)
+           (insert "\nEnd Method")
+           (indent-according-to-mode)))))
+
 
 ;; --------------------------------------------------
 ;; -- Quickrun Support
@@ -586,6 +683,10 @@ Returns `t` if in code, `nil` if in a comment or string."
 ;;;###autoload
 (define-derived-mode blitzmax-mode prog-mode "BlitzMax"
   "Major mode for editing BlitzMax source files."
+
+  ;; Bind <enter> to custom indentation function.
+  (define-key blitzmax-mode-map (kbd "C-j") #'blitzmax-mode-newline-and-indent)
+  (define-key blitzmax-mode-map (kbd "RET") #'blitzmax-mode-newline-and-indent)
 
   ;; Fontify buffer.
   (blitzmax-mode--fontify-buffer)
