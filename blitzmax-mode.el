@@ -644,14 +644,16 @@ checks if that pair is unclosed (via CLOSE-REGEXP)."
            (end-of-line)
            (insert "\nEnd Type"))
 
-          ((blitzmax-mode--can-complete-pair blitzmax-mode-function-start-regexp
-                                             blitzmax-mode-function-end-regexp)
+          ((and (blitzmax-mode--can-complete-pair blitzmax-mode-function-start-regexp
+                                                  blitzmax-mode-function-end-regexp)
+                (not (blitzmax-mode--abstract-defun-p)))
            (end-of-line)
            (insert "\nEnd Function")
            (indent-according-to-mode))
 
-          ((blitzmax-mode--can-complete-pair blitzmax-mode-method-start-regexp
-                                             blitzmax-mode-method-end-regexp)
+          ((and (blitzmax-mode--can-complete-pair blitzmax-mode-method-start-regexp
+                                                  blitzmax-mode-method-end-regexp)
+                (not (blitzmax-mode--abstract-defun-p)))
            (end-of-line)
            (insert "\nEnd Method")
            (indent-according-to-mode)))))

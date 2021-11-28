@@ -111,4 +111,24 @@
    (blitzmax-mode-newline-and-indent)
    (should (string= "\tMethod Test\n\t\t\n\t\nEnd Method" (buffer-string)))))
 
+
+;; --------------------------------------------------
+;; -- Abstract Function/Nethod tests
+
+(ert-deftest blitzmax-mode-pair-insertion-test/does-not-insert-end-with-abstract-function ()
+  (with-blitzmax-mode-text-test
+   ("")
+   (insert "Function Test() Abstract")
+   (end-of-line)
+   (blitzmax-mode-newline-and-indent)
+   (should (string= "Function Test() Abstract\n" (buffer-string)))))
+
+(ert-deftest blitzmax-mode-pair-insertion-test/does-not-insert-end-with-abstract-method ()
+  (with-blitzmax-mode-text-test
+   ("")
+   (insert "Method Test() Abstract")
+   (end-of-line)
+   (blitzmax-mode-newline-and-indent)
+   (should (string= "Method Test() Abstract\n" (buffer-string)))))
+
 ;;; blitzmax-mode-pair-insertion-test.el ends here
