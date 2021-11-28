@@ -633,7 +633,13 @@ checks if that pair is unclosed (via CLOSE-REGEXP)."
     (beginning-of-line)
 
     ;; TODO: This can be cleaned up considerably.
-    (cond ((blitzmax-mode--can-complete-pair blitzmax-mode-type-start-regexp
+    (cond ((blitzmax-mode--can-complete-pair blitzmax-mode-extern-start-regexp
+                                             blitzmax-mode-extern-end-regexp)
+           (end-of-line)
+           (insert "\nEnd Extern")
+           (indent-according-to-mode))
+
+          ((blitzmax-mode--can-complete-pair blitzmax-mode-type-start-regexp
                                              blitzmax-mode-type-end-regexp)
            (end-of-line)
            (insert "\nEnd Type"))

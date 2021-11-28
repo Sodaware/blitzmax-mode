@@ -7,6 +7,32 @@
 ;;; Code:
 
 ;; --------------------------------------------------
+;; -- Extern/End Extern insertion
+
+(ert-deftest blitzmax-mode-pair-insertion-test/inserts-end-extern-for-new-extern ()
+  (with-blitzmax-mode-text-test
+   ("")
+   (insert "Extern")
+   (blitzmax-mode-newline-and-indent)
+   (should (string= "Extern\n\t\nEnd Extern" (buffer-string)))))
+
+(ert-deftest blitzmax-mode-pair-insertion-test/inserts-end-with-closed-extern-afterwards ()
+  (with-blitzmax-mode-text-test
+   ("\nExtern\n\t\nEnd Extern")
+
+   (insert "Extern")
+   (blitzmax-mode-newline-and-indent)
+   (should (string= "Extern\n\t\nEnd Extern\nExtern\n\t\nEnd Extern" (buffer-string)))))
+
+(ert-deftest blitzmax-mode-pair-insertion-test/does-not-insert-end-with-closed-extern ()
+  (with-blitzmax-mode-text-test
+   ("Extern\n\t\nEnd Extern")
+   (end-of-line)
+   (blitzmax-mode-newline-and-indent)
+   (should (string= "Extern\n\t\n\t\nEnd Extern" (buffer-string)))))
+
+
+;; --------------------------------------------------
 ;; -- Type/End Type insertion
 
 (ert-deftest blitzmax-mode-pair-insertion-test/inserts-end-type-for-new-type ()
