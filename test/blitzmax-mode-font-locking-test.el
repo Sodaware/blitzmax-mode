@@ -27,7 +27,7 @@
    ("comments_font_locking.bmx")
 
    ;; First line is a comment.
-   (should (equal 'font-lock-comment-face (get-text-property 1 'face)))
+   (should (equal 'font-lock-comment-face (get-text-property 3 'face)))
 
    ;; Second line is highlighted.
    (should (equal 'font-lock-keyword-face (get-text-property 21 'face)))
