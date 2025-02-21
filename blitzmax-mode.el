@@ -318,11 +318,12 @@ Returns `t` if in code, `nil` if in a comment or string."
       (and (null (nth 3 list))      ;; Is inside string.
            (null (nth 4 list))))))  ;; Is inside comment.
 
-(defun blitzmax-mode--capitalize-keywords ()
-  "Automatically capitalize keywords if in a code context."
+(defun blitzmax-mode--capitalize-keywords (expand-fun)
+  "Automatically capitalize keywords if in a code context and call EXPAND-FUN."
   (setq local-abbrev-table
         (when (blitzmax-mode--in-code-context-p)
-          blitzmax-mode-abbrev-table)))
+          blitzmax-mode-abbrev-table))
+  (funcall expand-fun))
 
 
 ;; --------------------------------------------------
@@ -728,8 +729,7 @@ checks if that pair is unclosed (via CLOSE-REGEXP)."
 
   ;; Enable automatic capitalization.
   (when blitzmax-mode-capitalize-keywords-p
-    (make-local-variable 'pre-abbrev-expand-hook)
-    (add-hook 'pre-abbrev-expand-hook #'blitzmax-mode--capitalize-keywords)
+    (add-hook 'abbrev-expand-functions #'blitzmax-mode--capitalize-keywords nil t)
     (abbrev-mode 1))
 
   ;; Add single line comments to syntax table.
